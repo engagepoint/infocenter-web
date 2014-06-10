@@ -13,15 +13,25 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tomcat.major>6</tomcat.major>
         <tomcat.version>6.0.39</tomcat.version>
-        <cargo.servlet.port>4320</cargo.servlet.port>
+        <cargo.servlet.port>12345</cargo.servlet.port>
         <cargo.ping.timeout.sec>30</cargo.ping.timeout.sec>
         <cargo.tomcat.ajp.port>9008</cargo.tomcat.ajp.port>
+        <cargo.goal>start</cargo.goal>
     </properties>
 
     <groupId>org.eclipse.help.standalone</groupId>
     <artifactId>infocenter-web</artifactId>
     <version>3.3.100-EP</version>
     <packaging>war</packaging>
+
+    <profiles>
+        <profile>
+            <id>man-debug</id>
+            <properties>
+                <cargo.goal>run</cargo.goal>
+            </properties>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -144,14 +154,41 @@
                                         <include name="org.eclipse.equinox.registry_*.jar" />
                                         <include name="com.jcraft.jsch_*.jar" />
                                         <include name="org.eclipse.help_*.jar" />
-                                        <include name="org.eclipse.help.base_*.jar" />
-                                        <include name="org.eclipse.help.webapp_*.jar" />
                                         <include name="org.eclipse.osgi_*.jar" />
                                         <include name="org.eclipse.osgi.services_*.jar" />
                                         <include name="org.eclipse.update.configurator_*.jar" />
                                         <include name="org.eclipse.core.runtime.compatibility_*.jar" />
                                     </fileset>
                                 </copy>
+
+                                <!-- customize org.eclipse.help.webapp -->
+                                <mkdir dir="${project.build.directory}/temp/jar" />
+                                <unzip dest="${project.build.directory}/temp/jar">
+                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
+                                        <include name="org.eclipse.help.webapp_*.jar" />
+                                    </fileset>
+                                </unzip>
+                                <delete file="${project.build.directory}/temp/jar/advanced/index.jsp" />
+                                <copy todir="${project.build.directory}/temp/jar/advanced"
+                                      file="${project.basedir}/src/main/webapp/resources/index.jsp" />
+                                <delete file="${project.build.directory}/temp/jar/advanced/tocToolbar.jsp" />
+                                <copy todir="${project.build.directory}/temp/jar/advanced"
+                                      file="${project.basedir}/src/main/webapp/resources/tocToolbar.jsp" />
+                                <zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.webapp_${project.version}.jar"
+                                     basedir="${project.build.directory}/temp/jar" />
+
+                                <!-- customize org.eclipse.help.base -->
+                                <mkdir dir="${project.build.directory}/temp/jar2" />
+                                <unzip dest="${project.build.directory}/temp/jar2">
+                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
+                                        <include name="org.eclipse.help.base_*.jar" />
+                                    </fileset>
+                                </unzip>
+                                <delete file="${project.build.directory}/temp/jar2/advanced/tocToolbar.jsp" />
+                                <copy todir="${project.build.directory}/temp/jar2/doc"
+                                      file="${project.basedir}/src/main/webapp/resources/help_home.html" />
+                                <zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.base_${project.version}.jar"
+                                     basedir="${project.build.directory}/temp/jar2" />
                             </tasks>
                         </configuration>
                     </execution>
@@ -167,20 +204,20 @@
                         <id>start-container</id>
                         <phase>integration-test</phase>
                         <goals>
-                            <goal>start</goal>
-                            <goal>deploy</goal>
+                            <goal>${cargo.goal}</goal>
                         </goals>
                         <configuration>
                             <deployables>
                                 <deployable>
-                                    <location>${project.build.directory}/${project.artifactId}-${project.version}.war
+                                    <location>
+                                        ${project.build.directory}/${project.artifactId}-${project.version}.war
                                     </location>
                                     <pingURL>
-                                        http://localhost:${cargo.servlet.port}/${project.artifactId}-${project.version}/index.jsp
+                                        http://localhost:${cargo.servlet.port}/index.jsp
                                     </pingURL>
                                     <pingTimeout>${cargo.ping.timeout.sec}000</pingTimeout>
                                     <properties>
-                                        <context>${project.artifactId}-${project.version}</context>
+                                        <context>ROOT</context>
                                     </properties>
                                 </deployable>
                             </deployables>
