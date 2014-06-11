@@ -53,8 +53,7 @@
 	<jsp:param name="tooltip"  value='SynchNav'/>
 	<jsp:param name="image"    value="auto_synch_toc.gif"/>
 	<jsp:param name="action"   value="toggleAutosynch"/>
-	<jsp:param name="param"    value=""/>	
-	<%--<jsp:param name="state"    value="<%=((new CookiesData(application, request, response)).isSynchToc() ? "on" : "off")%>"/>--%>
+	<jsp:param name="param"    value=""/>
 	<jsp:param name="state"    value="on"/>
 
 </jsp:include>
