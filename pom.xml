@@ -5,10 +5,10 @@
 
     <properties>
         <eclipse.sdk.download.link>
-            http://archive.eclipse.org/eclipse/downloads/drops/R-3.4-200806172000/eclipse-SDK-3.4-win32.zip
+            http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/eclipse/downloads/drops4/R-4.3.2-201402211700/eclipse-SDK-4.3.2-win32.zip
         </eclipse.sdk.download.link>
         <equinox.sdk.download.link>
-            http://ftp.acc.umu.se/mirror/eclipse.org/equinox/drops/R-3.8.2-201302041200/equinox-SDK-3.8.2.zip
+            http://ftp.roedu.net/mirrors/eclipse.org//equinox/drops/R-3.8.2-201302041200/equinox-SDK-3.8.2.zip
         </equinox.sdk.download.link>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tomcat.major>6</tomcat.major>
@@ -21,7 +21,7 @@
 
     <groupId>org.eclipse.help.standalone</groupId>
     <artifactId>infocenter-web</artifactId>
-    <version>3.3.100-EP</version>
+    <version>3.6.0-EP</version>
     <packaging>war</packaging>
 
     <profiles>
@@ -41,6 +41,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
+                    <excludes>**/*</excludes>
                     <webResources>
                         <resource>
                             <directory>${project.build.directory}/temp/war</directory>
@@ -124,21 +125,20 @@
                                         <include name="org.eclipse.equinox.servletbridge_*.jar" />
                                     </fileset>
                                 </copy>
-                                <copy todir="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins">
+                                <copy todir="${project.build.directory}/temp/war/WEB-INF/plugins">
                                     <fileset dir="${project.build.directory}/temp/equinox/plugins">
                                         <include name="org.eclipse.equinox.http.servletbridge_*.jar" />
                                     </fileset>
                                 </copy>
-                                <copy todir="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins">
+                                <copy todir="${project.build.directory}/temp/war/WEB-INF/plugins">
                                     <fileset dir="${project.build.directory}/temp/eclipse/plugins">
                                         <include name="com.ibm.icu_*.jar" />
                                         <include name="javax.servlet_*.jar" />
                                         <include name="javax.servlet.jsp_*.jar" />
-                                        <include name="org.apache.commons.el_*.jar" />
                                         <include name="org.apache.commons.logging_*.jar" />
-                                        <include name="org.apache.jasper_*.jar" />
-                                        <include name="org.apache.lucene.analysis_*.jar" />
                                         <include name="org.apache.lucene_*.jar" />
+                                        <include name="org.apache.lucene.analysis_*.jar" />
+                                        <include name="org.apache.lucene.core_*.jar" />
                                         <include name="org.eclipse.core.contenttype_*.jar" />
                                         <include name="org.eclipse.core.expressions_*.jar" />
                                         <include name="org.eclipse.core.jobs_*.jar" />
@@ -154,41 +154,57 @@
                                         <include name="org.eclipse.equinox.registry_*.jar" />
                                         <include name="com.jcraft.jsch_*.jar" />
                                         <include name="org.eclipse.help_*.jar" />
+                                        <include name="org.eclipse.help.base_*.jar" />
+                                        <include name="org.eclipse.help.webapp_*.jar" />
                                         <include name="org.eclipse.osgi_*.jar" />
                                         <include name="org.eclipse.osgi.services_*.jar" />
                                         <include name="org.eclipse.update.configurator_*.jar" />
                                         <include name="org.eclipse.core.runtime.compatibility_*.jar" />
+                                        <include name="javax.el_*.jar" />
+                                        <include name="org.eclipse.jetty.http_*.jar" />
+                                        <include name="org.eclipse.jetty.io_*.jar" />
+                                        <include name="org.eclipse.jetty.server_*.jar" />
+                                        <include name="org.eclipse.jetty.servlet_*.jar" />
+                                        <include name="org.eclipse.jetty.util_*.jar" />
+                                        <include name="org.apache.jasper.glassfish_*.jar" />
                                     </fileset>
                                 </copy>
 
-                                <!-- customize org.eclipse.help.webapp -->
-                                <mkdir dir="${project.build.directory}/temp/jar" />
-                                <unzip dest="${project.build.directory}/temp/jar">
-                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
-                                        <include name="org.eclipse.help.webapp_*.jar" />
-                                    </fileset>
-                                </unzip>
-                                <delete file="${project.build.directory}/temp/jar/advanced/index.jsp" />
-                                <copy todir="${project.build.directory}/temp/jar/advanced"
-                                      file="${project.basedir}/src/main/webapp/resources/index.jsp" />
-                                <delete file="${project.build.directory}/temp/jar/advanced/tocToolbar.jsp" />
-                                <copy todir="${project.build.directory}/temp/jar/advanced"
-                                      file="${project.basedir}/src/main/webapp/resources/tocToolbar.jsp" />
-                                <zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.webapp_${project.version}.jar"
-                                     basedir="${project.build.directory}/temp/jar" />
+                                <!--
+                                Does not help
+                                <delete file="${project.build.directory}/temp/war/WEB-INF/web.xml" />
+                                <copy todir="${project.build.directory}/temp/war/WEB-INF"
+                                    file="${project.basedir}/src/main/webapp/resources/web.xml" />
+                                -->
 
-                                <!-- customize org.eclipse.help.base -->
-                                <mkdir dir="${project.build.directory}/temp/jar2" />
-                                <unzip dest="${project.build.directory}/temp/jar2">
-                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
-                                        <include name="org.eclipse.help.base_*.jar" />
-                                    </fileset>
-                                </unzip>
-                                <delete file="${project.build.directory}/temp/jar2/advanced/tocToolbar.jsp" />
-                                <copy todir="${project.build.directory}/temp/jar2/doc"
-                                      file="${project.basedir}/src/main/webapp/resources/help_home.html" />
-                                <zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.base_${project.version}.jar"
-                                     basedir="${project.build.directory}/temp/jar2" />
+                          <!--&lt;!&ndash; customize org.eclipse.help.webapp &ndash;&gt;-->
+                                <!--<mkdir dir="${project.build.directory}/temp/jar" />-->
+                                <!--<unzip dest="${project.build.directory}/temp/jar">-->
+                                    <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
+                                        <!--<include name="org.eclipse.help.webapp_*.jar" />-->
+                                    <!--</fileset>-->
+                                <!--</unzip>-->
+                                <!--<delete file="${project.build.directory}/temp/jar/advanced/index.jsp" />-->
+                                <!--<copy todir="${project.build.directory}/temp/jar/advanced"-->
+                                      <!--file="${project.basedir}/src/main/webapp/resources/index.jsp" />-->
+                                <!--<delete file="${project.build.directory}/temp/jar/advanced/tocToolbar.jsp" />-->
+                                <!--<copy todir="${project.build.directory}/temp/jar/advanced"-->
+                                      <!--file="${project.basedir}/src/main/webapp/resources/tocToolbar.jsp" />-->
+                                <!--<zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.webapp_${project.version}.jar"-->
+                                     <!--basedir="${project.build.directory}/temp/jar" />-->
+
+                                <!--&lt;!&ndash; customize org.eclipse.help.base &ndash;&gt;-->
+                                <!--<mkdir dir="${project.build.directory}/temp/jar2" />-->
+                                <!--<unzip dest="${project.build.directory}/temp/jar2">-->
+                                    <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
+                                        <!--<include name="org.eclipse.help.base_*.jar" />-->
+                                    <!--</fileset>-->
+                                <!--</unzip>-->
+                                <!--<delete file="${project.build.directory}/temp/jar2/advanced/tocToolbar.jsp" />-->
+                                <!--<copy todir="${project.build.directory}/temp/jar2/doc"-->
+                                      <!--file="${project.basedir}/src/main/webapp/resources/help_home.html" />-->
+                                <!--<zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.base_${project.version}.jar"-->
+                                     <!--basedir="${project.build.directory}/temp/jar2" />-->
                             </tasks>
                         </configuration>
                     </execution>
@@ -212,10 +228,10 @@
                                     <location>
                                         ${project.build.directory}/${project.artifactId}-${project.version}.war
                                     </location>
-                                    <pingURL>
-                                        http://localhost:${cargo.servlet.port}/index.jsp
-                                    </pingURL>
-                                    <pingTimeout>${cargo.ping.timeout.sec}000</pingTimeout>
+                                    <!--<pingURL>-->
+                                        <!--http://localhost:${cargo.servlet.port}/index.jsp-->
+                                    <!--</pingURL>-->
+                                    <!--<pingTimeout>${cargo.ping.timeout.sec}000</pingTimeout>-->
                                     <properties>
                                         <context>ROOT</context>
                                     </properties>
