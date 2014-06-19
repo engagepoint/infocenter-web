@@ -154,8 +154,8 @@
                                         <include name="org.eclipse.equinox.registry_*.jar" />
                                         <include name="com.jcraft.jsch_*.jar" />
                                         <include name="org.eclipse.help_*.jar" />
-                                        <include name="org.eclipse.help.base_*.jar" />
-                                        <include name="org.eclipse.help.webapp_*.jar" />
+                                        <!--<include name="org.eclipse.help.base_*.jar" />-->
+                                        <!--<include name="org.eclipse.help.webapp_*.jar" />-->
                                         <include name="org.eclipse.osgi_*.jar" />
                                         <include name="org.eclipse.osgi.services_*.jar" />
                                         <include name="org.eclipse.update.configurator_*.jar" />
@@ -177,7 +177,7 @@
                                     file="${project.basedir}/src/main/webapp/resources/web.xml" />
                                 -->
 
-                          <!--&lt;!&ndash; customize org.eclipse.help.webapp &ndash;&gt;-->
+                          <!-- customize org.eclipse.help.webapp -->
                                 <!--<mkdir dir="${project.build.directory}/temp/jar" />-->
                                 <!--<unzip dest="${project.build.directory}/temp/jar">-->
                                     <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
@@ -193,18 +193,31 @@
                                 <!--<zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.webapp_${project.version}.jar"-->
                                      <!--basedir="${project.build.directory}/temp/jar" />-->
 
-                                <!--&lt;!&ndash; customize org.eclipse.help.base &ndash;&gt;-->
-                                <!--<mkdir dir="${project.build.directory}/temp/jar2" />-->
-                                <!--<unzip dest="${project.build.directory}/temp/jar2">-->
-                                    <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
-                                        <!--<include name="org.eclipse.help.base_*.jar" />-->
-                                    <!--</fileset>-->
-                                <!--</unzip>-->
-                                <!--<delete file="${project.build.directory}/temp/jar2/advanced/tocToolbar.jsp" />-->
-                                <!--<copy todir="${project.build.directory}/temp/jar2/doc"-->
-                                      <!--file="${project.basedir}/src/main/webapp/resources/help_home.html" />-->
-                                <!--<zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.base_${project.version}.jar"-->
-                                     <!--basedir="${project.build.directory}/temp/jar2" />-->
+                                 customize org.eclipse.help.webapp
+                                <mkdir dir="${project.build.directory}/temp/jar"/>
+                                <unzip dest="${project.build.directory}/temp/jar">
+                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
+                                        <include name="org.eclipse.help.webapp_*.jar"/>
+                                    </fileset>
+                                </unzip>
+                                <copy todir="${project.build.directory}/temp/jar/org/eclipse/help/internal/webapp"
+                                      file="${project.basedir}/src/main/webapp/resources/WebappResources.properties"/>
+                                <zip destfile="${project.build.directory}/temp/war/WEB-INF/plugins/org.eclipse.help.webapp_${project.version}.jar"
+                                     basedir="${project.build.directory}/temp/jar"/>
+
+                                <!-- customize org.eclipse.help.base -->
+                                <mkdir dir="${project.build.directory}/temp/jar2" />
+                                <unzip dest="${project.build.directory}/temp/jar2">
+                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
+                                        <include name="org.eclipse.help.base_*.jar" />
+                                    </fileset>
+                                </unzip>
+                                <delete file="${project.build.directory}/temp/jar2/preferences.ini" />
+                                <copy todir="${project.build.directory}/temp/jar2/">
+                                    <fileset dir="${project.basedir}/src/main/webapp/resources/engagepoint/" includes="**/*" />
+                                </copy>
+                                <zip destfile="${project.build.directory}/temp/war/WEB-INF/plugins/org.eclipse.help.base_${project.version}.jar"
+                                     basedir="${project.build.directory}/temp/jar2" />
                             </tasks>
                         </configuration>
                     </execution>
