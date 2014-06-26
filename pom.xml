@@ -214,7 +214,7 @@
                                 <!--<zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.webapp_${project.version}.jar"-->
                                      <!--basedir="${project.build.directory}/temp/jar" />-->
 
-                                 customize org.eclipse.help.webapp
+                                <!-- customize org.eclipse.help.webapp -->
                                 <mkdir dir="${project.build.directory}/temp/jar"/>
                                 <unzip dest="${project.build.directory}/temp/jar">
                                     <fileset dir="${project.build.directory}/temp/eclipse/plugins">
@@ -223,6 +223,9 @@
                                 </unzip>
                                 <copy todir="${project.build.directory}/temp/jar/org/eclipse/help/internal/webapp"
                                       file="${project.basedir}/src/main/webapp/resources/WebappResources.properties"/>
+                                <copy todir="${project.build.directory}/temp/jar/allImages">
+                                    <fileset dir="${project.basedir}/src/main/webapp/resources/allImages/" includes="**/*" />
+                                </copy>
                                 <zip destfile="${project.build.directory}/temp/war/WEB-INF/plugins/org.eclipse.help.webapp_${project.version}.jar"
                                      basedir="${project.build.directory}/temp/jar"/>
 
