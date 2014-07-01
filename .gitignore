@@ -40,7 +40,6 @@ Thumbs.db
 
 # Eclipse
 target/
-eclipse/
 .settings/
 .metadata/
 .classpath
