@@ -1,77 +1,23 @@
 Signature-Version: 1.0
-SHA1-Digest-Manifest: Y8kI600ZnZ4HwCf5ruyE1hLsQSY=
+SHA1-Digest-Manifest: X8GBmOSggoWfGvwZ1IsPEwpCtkM=
 Created-By: 1.6.0 (IBM Corporation)
-SHA1-Digest-Manifest-Main-Attributes: Tq/j6KRinx3X/wF0Bwityd4Fmy8=
+SHA1-Digest-Manifest-Main-Attributes: 9TPgKlouEoBf/WU/08b7BSlsSRw=
+
+Name: org/eclipse/equinox/servletbridge/BridgeServlet.java
+SHA1-Digest: 0pjihvNt8PBwBxBsAdYfprddkqs=
 
 Name: META-INF/eclipse.inf
 SHA1-Digest: SAqY+5ITAL0mkdYeijlSRhyIaZk=
 
-Name: org/eclipse/equinox/servletbridge/CloseableURLClassLoader$Closea
- bleJarFileLoader.class
-SHA1-Digest: +eRLS0F2h/tHu0KI7sC/uPhp4sU=
-
-Name: org/eclipse/equinox/servletbridge/FrameworkLauncher$1.class
-SHA1-Digest: qrBxf0AvmqYs9BggugKX0vrQS70=
-
-Name: .api_description
-SHA1-Digest: ck0cYpMyZmz1mRAlvsUaS3L4Hlc=
-
-Name: org/eclipse/equinox/servletbridge/FrameworkLauncher$2.class
-SHA1-Digest: 42KZiZJ0umW8prH81jS3aAI7AXA=
-
-Name: org/eclipse/equinox/servletbridge/FrameworkLauncher$3.class
-SHA1-Digest: FWPda1oQMTwKQ7hKDIgfYVP7lm4=
-
-Name: org/eclipse/equinox/servletbridge/FrameworkLauncher$ChildFirstUR
- LClassLoader.class
-SHA1-Digest: nt+oEgQB8EsgBQEJfm4HFwSupKw=
-
-Name: org/eclipse/equinox/servletbridge/FrameworkLauncher$4.class
-SHA1-Digest: axul4NYwADVopwLYbuBVGhX5ZIk=
-
-Name: org/eclipse/equinox/servletbridge/CloseableURLClassLoader.class
-SHA1-Digest: U37KeEoW9J4E4qYYoX3W1fhCkWw=
-
 Name: about.html
 SHA1-Digest: IMJKsR3Vi9xFUgMu+9YZDYhzI7I=
 
-Name: org/eclipse/equinox/servletbridge/CloseableURLClassLoader$Closea
- bleJarURLConnection.class
-SHA1-Digest: 1lehzGLKpFow6X77lPhvKkWE+4A=
-
-Name: org/eclipse/equinox/servletbridge/FrameworkLauncher$5.class
-SHA1-Digest: Euy2Ry5u0bwB3nUsOTn80C4TVrA=
-
 Name: plugin.properties
-SHA1-Digest: 6MDR1L28kZWJhvGUJezG+simT5A=
+SHA1-Digest: YNXXAK7Ad+fXo7KhRwiYTg8KacQ=
 
-Name: org/eclipse/equinox/servletbridge/CloseableURLClassLoader$Closea
- bleJarURLStreamHandler.class
-SHA1-Digest: g5Ta6egdcGlBSM69up9LnlBeoCo=
+Name: org/eclipse/equinox/servletbridge/CloseableURLClassLoader.java
+SHA1-Digest: l65v5mLr6IcqqK1eMh5j6DKxrxk=
 
-Name: org/eclipse/equinox/servletbridge/BridgeServlet$ExtensionMapping
- Request.class
-SHA1-Digest: hv8tXhpRs1u+3a6BGridqcrgn3k=
-
-Name: org/eclipse/equinox/servletbridge/CloseableURLClassLoader$1.clas
- s
-SHA1-Digest: G8ztvcDGghKtY9sTeaouILyBj2E=
-
-Name: org/eclipse/equinox/servletbridge/CloseableURLClassLoader$2.clas
- s
-SHA1-Digest: tbgN2ooM7qcaD+FCJxM+SMxV39U=
-
-Name: org/eclipse/equinox/servletbridge/BridgeServlet.class
-SHA1-Digest: aqRVsdUxkmFrUsXEgeHHEijzTE8=
-
-Name: org/eclipse/equinox/servletbridge/BridgeServlet$IncludedExtensio
- nMappingRequest.class
-SHA1-Digest: cuSoqzKU6uURRag8J2EaIr66mzU=
-
-Name: org/eclipse/equinox/servletbridge/CloseableURLClassLoader$3.clas
- s
-SHA1-Digest: G1pL+luk16tQaO5xeRM5QMwOHiQ=
-
-Name: org/eclipse/equinox/servletbridge/FrameworkLauncher.class
-SHA1-Digest: 7c8bN7FH7w3pW9UqKV70Mpvv/Lw=
+Name: org/eclipse/equinox/servletbridge/FrameworkLauncher.java
+SHA1-Digest: rIEOFRrBJaI+uprU+hEtUw9l8D8=
 
