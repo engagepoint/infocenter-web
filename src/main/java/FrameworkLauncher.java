@@ -341,7 +341,7 @@ public class FrameworkLauncher {
 	public synchronized void undeploy() {
 		if (platformDirectory == null) {
 			context.log("Undeploy unnecessary. - (not deployed)"); //$NON-NLS-1$
-            return;
+			return;
 		}
 
 		if (frameworkClassLoader != null) {
