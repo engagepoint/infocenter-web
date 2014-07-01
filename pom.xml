@@ -23,6 +23,19 @@
     <version>3.6.0-EP</version>
     <packaging>war</packaging>
 
+    <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.equinox</groupId>
+            <artifactId>servletbridge</artifactId>
+            <version>1.0.0-v20070523</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
 
