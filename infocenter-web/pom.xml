@@ -31,6 +31,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
             <groupId>org.eclipse.equinox</groupId>
             <artifactId>servletbridge</artifactId>
             <version>1.2.2-EP</version>
@@ -45,7 +50,9 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <excludes>**/*</excludes>
+                    <!--<excludes>**/*</excludes>-->
+                    <includes>**/*.class</includes>
+                    <includes>**/web.xml</includes>
                     <webResources>
                         <resource>
                             <directory>${project.build.directory}/temp/war</directory>
@@ -100,11 +107,13 @@
                                 <unzip dest="${project.build.directory}/temp/webapp">
                                     <patternset>
                                         <include name="**/web-archive/help/WEB-INF/**" />
+                                        <!--<exclude name="**/web.xml" />-->
                                     </patternset>
                                     <fileset dir="${project.build.directory}/temp/eclipse/plugins">
                                         <include name="org.eclipse.help.webapp_*.jar" />
                                     </fileset>
                                 </unzip>
+                                <delete file="${project.build.directory}/temp/war/WEB-INF/web.xml" />
                             </tasks>
                         </configuration>
                         <goals>
