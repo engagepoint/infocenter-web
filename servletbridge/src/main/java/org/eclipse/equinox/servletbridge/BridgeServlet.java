@@ -75,6 +75,8 @@ public class BridgeServlet extends HttpServlet {
 	 */
 	public void destroy() {
 		framework.stop();
+        // For remove temporary files
+        framework.undeploy();
 		framework.destroy();
 		setInstance(null);
 		super.destroy();

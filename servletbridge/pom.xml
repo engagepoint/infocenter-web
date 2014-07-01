@@ -12,7 +12,7 @@
 
     <groupId>org.eclipse.equinox</groupId>
     <artifactId>servletbridge</artifactId>
-    <version>1.0.0-EP</version>
+    <version>1.2.2-EP</version>
 
     <dependencies>
         <dependency>

@@ -10,6 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>org.eclipse.help.standalone</groupId>
     <artifactId>infocenter-web</artifactId>
     <packaging>war</packaging>
 
@@ -32,7 +33,7 @@
         <dependency>
             <groupId>org.eclipse.equinox</groupId>
             <artifactId>servletbridge</artifactId>
-            <version>1.0.0-EP</version>
+            <version>1.2.2-EP</version>
         </dependency>
     </dependencies>
 
