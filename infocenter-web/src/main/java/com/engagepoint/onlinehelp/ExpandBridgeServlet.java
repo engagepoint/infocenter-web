@@ -14,29 +14,30 @@ public class ExpandBridgeServlet extends BridgeServlet {
 
 //    @Override
     public void destroy() {
-        if (frameworkLauncher != null) {
-            frameworkLauncher.undeploy();
-        }
-//        try {
-//            Field framework = super.getClass().getDeclaredField("framework");
-//            framework.setAccessible(true);
-//            FrameworkLauncher frameworkLauncher = new FrameworkLauncher();
-//            undeploy((FrameworkLauncher) framework.get(frameworkLauncher));
+//        if (frameworkLauncher != null) {
 //            frameworkLauncher.undeploy();
-//        } catch (NoSuchFieldException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
 //        }
+        try {
+            Field framework = super.getClass().getDeclaredField("framework");
+            framework.setAccessible(true);
+            FrameworkLauncher frameworkLauncher = new FrameworkLauncher();
+//            undeploy((FrameworkLauncher) framework.get(frameworkLauncher));
+            framework.get(frameworkLauncher);
+            frameworkLauncher.undeploy();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         super.destroy();
     }
 
 //    @Override
-    public void init() throws ServletException {
-        frameworkLauncher = new FrameworkLauncher();
-        frameworkLauncher.undeploy();
-        super.init();
-    }
+//    public void init() throws ServletException {
+//        frameworkLauncher = new FrameworkLauncher();
+//        frameworkLauncher.undeploy();
+//        super.init();
+//    }
 
 //    private void undeploy(FrameworkLauncher fl) {
 //        fl.undeploy();
