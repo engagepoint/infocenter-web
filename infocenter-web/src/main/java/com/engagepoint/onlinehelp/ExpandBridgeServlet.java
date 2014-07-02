@@ -17,6 +17,7 @@ public class ExpandBridgeServlet extends BridgeServlet {
         if (framework != null) {
             undeploy();
         }
+        super.destroy();
     }
 
     @Override
