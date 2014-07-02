@@ -24,9 +24,7 @@ public class ExpandBridgeServlet extends BridgeServlet {
         super.init();
         try {
             Field frameworkField = BridgeServlet.class.getDeclaredField("framework");
-//            Field instanceField = super.getClass().getDeclaredField("instance");
             frameworkField.setAccessible(true);
-//            instanceField.setAccessible(true);
             framework2 = new FrameworkLauncher();
             framework2 = (FrameworkLauncher) frameworkField.get(this);
             redeploy();
