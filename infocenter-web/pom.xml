@@ -113,6 +113,7 @@
                                         <include name="org.eclipse.help.webapp_*.jar" />
                                     </fileset>
                                 </unzip>
+                                <!-- TODO: inspect, haw exclude instead delete -->
                                 <delete file="${project.build.directory}/temp/war/WEB-INF/web.xml" />
                             </tasks>
                         </configuration>
