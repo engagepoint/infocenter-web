@@ -114,7 +114,7 @@
                                     </fileset>
                                 </unzip>
                                 <!-- TODO: inspect, haw exclude instead delete -->
-                                <delete file="${project.build.directory}/temp/webapp/WEB-INF/web.xml" />
+                                <delete file="${project.build.directory}/temp/webapp/web-archive/help/WEB-INF/web.xml" />
                             </tasks>
                         </configuration>
                         <goals>

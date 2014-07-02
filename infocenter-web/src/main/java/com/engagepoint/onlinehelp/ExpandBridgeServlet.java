@@ -10,13 +10,8 @@ import java.lang.reflect.Field;
  * Created by ykukharskyi on 01.07.14.
  */
 public class ExpandBridgeServlet extends BridgeServlet {
-    FrameworkLauncher frameworkLauncher;
 
-//    @Override
     public void destroy() {
-//        if (frameworkLauncher != null) {
-//            frameworkLauncher.undeploy();
-//        }
         try {
             Field framework = super.getClass().getDeclaredField("framework");
             framework.setAccessible(true);
@@ -31,14 +26,6 @@ public class ExpandBridgeServlet extends BridgeServlet {
         }
         super.destroy();
     }
-
-//    @Override
-//    public void init() throws ServletException {
-//        frameworkLauncher = new FrameworkLauncher();
-//        frameworkLauncher.undeploy();
-//        super.init();
-//    }
-
 //    private void undeploy(FrameworkLauncher fl) {
 //        fl.undeploy();
 //    }
