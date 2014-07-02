@@ -10,11 +10,11 @@ import java.lang.reflect.Field;
  * Created by ykukharskyi on 01.07.14.
  */
 public class ExpandBridgeServlet extends BridgeServlet {
-    FrameworkLauncher frameworkLauncher;
+    private FrameworkLauncher framework2;
 
     @Override
     public void destroy() {
-        if (frameworkLauncher != null) {
+        if (framework2 != null) {
             undeploy();
         }
     }
@@ -23,10 +23,12 @@ public class ExpandBridgeServlet extends BridgeServlet {
     public void init() throws ServletException {
         super.init();
         try {
-            Field framework = super.getClass().getDeclaredField("framework");
-            framework.setAccessible(true);
-            frameworkLauncher = new FrameworkLauncher();
-            frameworkLauncher = (FrameworkLauncher) framework.get(frameworkLauncher);
+            Field frameworkField = BridgeServlet.class.getDeclaredField("framework");
+//            Field instanceField = super.getClass().getDeclaredField("instance");
+            frameworkField.setAccessible(true);
+//            instanceField.setAccessible(true);
+            framework2 = new FrameworkLauncher();
+            framework2 = (FrameworkLauncher) frameworkField.get(this);
             redeploy();
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
@@ -36,13 +38,13 @@ public class ExpandBridgeServlet extends BridgeServlet {
     }
 
     private void undeploy() {
-        frameworkLauncher.undeploy();
+        framework2.undeploy();
     }
 
     private void redeploy() {
-        frameworkLauncher.stop();
+        framework2.stop();
         undeploy();
-        frameworkLauncher.deploy();
-        frameworkLauncher.start();
+        framework2.deploy();
+        framework2.start();
     }
 }
