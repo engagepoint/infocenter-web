@@ -37,6 +37,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.groupId}_${project.version}</finalName>
         <plugins>
 
             <plugin>
