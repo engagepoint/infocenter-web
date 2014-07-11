@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.eclipse.help.standalone</groupId>
-    <artifactId>infocenter-web</artifactId>
+    <artifactId>org.eclipse.help.standalone.infocenter-web</artifactId>
     <packaging>war</packaging>
 
     <properties>
@@ -27,11 +27,12 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.equinox</groupId>
-            <artifactId>servletbridge</artifactId>
-            <version>1.2.2-EP</version>
+            <artifactId>org.eclipse.equinox.servletbridge</artifactId>
+            <version>1.2.2</version>
         </dependency>
     </dependencies>
 

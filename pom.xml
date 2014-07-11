@@ -11,6 +11,7 @@
     <modules>
         <module>infocenter-web</module>
         <module>servletbridge</module>
+        <module>org.eclipse.help.webapp</module>
     </modules>
 
     <properties>

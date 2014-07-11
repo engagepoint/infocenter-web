@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.eclipse.help</groupId>
+    <artifactId>org.eclipse.help.webapp</artifactId>
+    <version>3.6.200.v20130514-1258</version>
+    <packaging>eclipse-plugin</packaging>
+
+    <properties>
+        <tycho.version>0.20.0</tycho.version>
+        <kepler-repo.url>http://download.eclipse.org/releases/kepler</kepler-repo.url>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>kepler</id>
+            <url>${kepler-repo.url}</url>
+            <layout>p2</layout>
+        </repository>
+    </repositories>
+
+    <build>
+        <sourceDirectory>src</sourceDirectory>
+        <plugins>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-jspc-maven-plugin</artifactId>
+                <version>8.1.8.v20121106</version>
+                <executions>
+                    <execution>
+                        <id>jspc</id>
+                        <goals>
+                            <goal>jspc</goal>
+                        </goals>
+                        <configuration>
+                            <packageRoot>org.eclipse.help.internal.webapp.jsp</packageRoot>
+                            <webAppSourceDirectory>${basedir}</webAppSourceDirectory>
+                            <useProvidedScope>true</useProvidedScope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho.version}</version>
+                <extensions>true</extensions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
