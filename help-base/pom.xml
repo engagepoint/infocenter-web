@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>infocenter</artifactId>
+        <groupId>org.eclipse</groupId>
+        <version>3.6.0-EP-1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>help-base</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.jibx.config.3rdparty.org.eclipse</groupId>
+            <artifactId>org.eclipse.core.runtime</artifactId>
+            <version>3.7.0.v20110110</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>help</artifactId>
+            <version>3.3.0-v20070524</version>
+            <scope>provided</scope>
+        </dependency>
+
+    </dependencies>
+
+
+
+</project>

@@ -1,9 +1,13 @@
-package com.engagepoint.onlinehelp;
+package com.engagepoint.onlinehelp.servletbridge;
 
 import org.eclipse.equinox.servletbridge.BridgeServlet;
 import org.eclipse.equinox.servletbridge.FrameworkLauncher;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Field;
 
 /**
@@ -11,6 +15,7 @@ import java.lang.reflect.Field;
  */
 public class ExpandBridgeServlet extends BridgeServlet {
     private FrameworkLauncher framework;
+    public static ThreadLocal<String> role = new ThreadLocal<String>();
 
     @Override
     public void destroy() {
@@ -33,6 +38,12 @@ public class ExpandBridgeServlet extends BridgeServlet {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        role.set(req.getSession().getId());
+        super.service(req, resp);
     }
 
     private void undeploy() {

@@ -34,6 +34,11 @@
             <artifactId>org.eclipse.equinox.servletbridge</artifactId>
             <version>1.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.engagepoint.onlinehelp</groupId>
+            <artifactId>com.engagepoint.onlinehelp.servletbridge</artifactId>
+            <version>3.6.0-EP-1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -248,6 +253,16 @@
                                 </copy>
                                 <zip destfile="${project.build.directory}/temp/war/WEB-INF/plugins/org.eclipse.help.webapp_${project.version}.jar"
                                      basedir="${project.build.directory}/temp/jar"/>
+
+
+
+<!--
+                                <copy todir="${project.build.directory}/temp/war/WEB-INF/plugins/">
+                                    <fileset dir="${project.build.directory}/../../com.engagepoint.onlinehelp.servletbridge/target/" includes="*.jar" />
+                                </copy>
+-->
+
+
 
                                 <!-- customize org.eclipse.help.base -->
                                 <mkdir dir="${project.build.directory}/temp/jar2" />

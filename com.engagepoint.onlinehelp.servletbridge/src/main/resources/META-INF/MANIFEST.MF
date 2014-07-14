@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-Vendor: EngagePoint
+Bundle-Localization: plugin
+Bundle-Name: com.engagepoint.onlinehelp.servletbridge
+Bundle-SymbolicName: org.eclipse.equinox.servletbridge.source
+Bundle-Version: 1.2.200.v20120912-130548
+Bundle-ManifestVersion: 2
+
+
