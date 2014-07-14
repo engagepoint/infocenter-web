@@ -29,11 +29,11 @@
             <version>2.4</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.eclipse.equinox</groupId>
-            <artifactId>org.eclipse.equinox.servletbridge</artifactId>
-            <version>1.2.2</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.eclipse.equinox</groupId>-->
+            <!--<artifactId>org.eclipse.equinox.servletbridge</artifactId>-->
+            <!--<version>1.2.2</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.engagepoint.onlinehelp</groupId>
             <artifactId>com.engagepoint.onlinehelp.servletbridge</artifactId>

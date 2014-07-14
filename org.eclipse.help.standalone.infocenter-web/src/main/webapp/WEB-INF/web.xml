@@ -16,7 +16,7 @@
 		<servlet-name>equinoxbridgeservlet</servlet-name>
 		<display-name>Equinox Bridge Servlet</display-name>
 		<description>Equinox Bridge Servlet</description>
-		<servlet-class>com.engagepoint.onlinehelp.servletbridge.ExpandBridgeServlet</servlet-class>
+		<servlet-class>org.eclipse.equinox.servletbridge.BridgeServlet</servlet-class>
 		<!--
 		  org.eclipse.equinox.servletbridge and the Servlet API are exported automatically to the underlying OSGi framework.
 		  The extendedFrameworkExports parameter allows the specification of additional java package exports.
