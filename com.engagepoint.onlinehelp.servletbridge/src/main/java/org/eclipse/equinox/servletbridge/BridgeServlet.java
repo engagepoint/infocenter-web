@@ -12,10 +12,7 @@
 package org.eclipse.equinox.servletbridge;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 
 /**
@@ -66,6 +63,8 @@ public class BridgeServlet extends HttpServlet {
 		setInstance(this);
 		try {
 			framework.init(getServletConfig());
+            // update osgi if undeployed incorrect
+            framework.undeploy();
 			framework.deploy();
 			framework.start();
 			frameworkStarted = true;
@@ -80,6 +79,7 @@ public class BridgeServlet extends HttpServlet {
 	 */
 	public void destroy() {
 		framework.stop();
+        framework.undeploy();
 		framework.destroy();
 		setInstance(null);
 		super.destroy();
@@ -92,6 +92,19 @@ public class BridgeServlet extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         role.set(req.getSession().getId());
+//        //Cookie cookie = new Cookie("filter", "%28testscope%29");
+//        boolean filterInRequest = false;
+//        for (Cookie cookie : req.getCookies()) {
+//            if("filter".equals(cookie.getName())){
+//                cookie.setValue("%28testscope%29");
+//                filterInRequest = true;
+//            }
+//        }
+//        if( ! filterInRequest)
+//            resp.addCookie(new Cookie("filter", "%28testscope%29"));
+
+
+        req = new HttpRequestWrapper(req);
 
 		String pathInfo = req.getPathInfo();
 		// Check if this is being handled by an extension mapping

@@ -12,7 +12,6 @@
         <module>help-base</module>
         <module>com.engagepoint.onlinehelp.servletbridge</module>
         <module>org.eclipse.help.webapp</module>
-        <module>org.eclipse.equinox.servletbridge</module>
         <module>org.eclipse.help.standalone.infocenter-web</module>
     </modules>
 
