@@ -24,7 +24,7 @@
     </repositories>
 
     <build>
-        <finalName>${project.groupId}_${project.version}</finalName>
+        <finalName>${project.artifactId}_${project.version}</finalName>
         <sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>
