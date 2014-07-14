@@ -37,7 +37,7 @@
     </dependencies>
 
     <build>
-        <finalName>${project.groupId}_${project.version}</finalName>
+        <finalName>${project.artifactId}_${project.version}</finalName>
         <plugins>
 
             <plugin>
@@ -236,7 +236,8 @@
                                 <!-- customize org.eclipse.help.webapp -->
                                 <mkdir dir="${project.build.directory}/temp/jar"/>
                                 <unzip dest="${project.build.directory}/temp/jar">
-                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
+                                    <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
+                                    <fileset dir="${project.basedir}/../org.eclipse.help.webapp/target">
                                         <include name="org.eclipse.help.webapp_*.jar"/>
                                     </fileset>
                                 </unzip>
@@ -291,7 +292,7 @@
                                     <deployables>
                                         <deployable>
                                             <location>
-                                                ${project.build.directory}/${project.artifactId}-${project.version}.war
+                                                ${project.build.directory}/${project.artifactId}_${project.version}.war
                                             </location>
                                             <!--<pingURL>-->
                                             <!--http://localhost:${cargo.servlet.port}/index.jsp-->
@@ -359,7 +360,7 @@
                                     <deployables>
                                         <deployable>
                                             <location>
-                                                ${project.build.directory}/${project.artifactId}-${project.version}.war
+                                                ${project.build.directory}/${project.artifactId}_${project.version}.war
                                             </location>
                                             <type>war</type>
                                             <!--<pingURL>-->
