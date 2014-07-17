@@ -476,7 +476,6 @@ function menuExit(e) {
                                     </td>
                                     <%
                                     } else {
-                                        // there is only menus
                                     %>
                                     <td align="middle"
                                         id="tdb_<%=UrlUtil.htmlEncode(buttons[i].getName())%>"
@@ -492,47 +491,6 @@ function menuExit(e) {
                                                  border="0"
                                                  id="<%=UrlUtil.htmlEncode(buttons[i].getName())%>"/>
                                         </a>
-
-                                        <%--<input onclick="<%=UrlUtil.htmlEncode(buttons[i].getAction())%>('b<%=i%>', '<%=UrlUtil.htmlEncode(buttons[i].getParam())%>');"--%>
-                                               <%--onmouseover="setWindowStatus('<%=UrlUtil.htmlEncode(buttons[i].getName())%>');return true;"--%>
-                                               <%--onmouseout="window.status='';"--%>
-                                               <%--id="b<%=i%>"--%>
-                                               <%--onkeypress="return runScript(event, 'b<%=i%>')"--%>
-                                               <%--src="<%=UrlUtil.htmlEncode(buttons[i].getImage())%>"--%>
-                                               <%--alt='<%=UrlUtil.htmlEncode(buttons[i].getTooltip())%>'--%>
-                                               <%--title='<%=UrlUtil.htmlEncode(buttons[i].getTooltip())%>'--%>
-                                               <%--type="image"/>--%>
-
-                                            <%--<script>--%>
-                                                <%--function runScript(e, id) {--%>
-                                                    <%--if (e.charCode == 32) {--%>
-                                                        <%--document.getElementById(id).click();--%>
-                                                        <%--<%=UrlUtil.htmlEncode(buttons[i].getAction())%>('b<%=i%>', '<%=UrlUtil.htmlEncode(buttons[i].getParam())%>');--%>
-                                                        <%--parent.tocViewFrame.focus();--%>
-                                                    <%--}--%>
-                                                <%--}--%>
-                                            <%--</script>--%>
-
-                                        <%--<a id="b1"--%>
-                                        <%--onmouseout="window.status='';"--%>
-                                        <%--onmouseover="javascript:setWindowStatus('print_toc');return true;"--%>
-                                        <%--href="javascript:menu('b1', 'Print\u0020selected\u0020topic=printTopic(\'You\u0020must\u0020select\u0020a\u0020valid\u0020topic\u0020to\u0020print\'),Print\u0020selected\u0020topic\u0020and\u0020all\u0020subtopics=printToc(\'You\u0020must\u0020select\u0020a\u0020valid\u0020topic\u0020to\u0020print\')');">--%>
-                                        <%--<img id="print_toc"--%>
-                                        <%--border="0"--%>
-                                        <%--title="Print topics"--%>
-                                        <%--alt="Print topics"--%>
-                                        <%--src="../topic/org.eclipse.help.webapp/allImages/e_print_toc.gif">--%>
-                                        <%--</a>--%>
-
-                                        <%--<input id="print_toc"--%>
-                                        <%--type="image"--%>
-                                        <%--title="Print topics"--%>
-                                        <%--alt="Print topics"--%>
-                                        <%--src="../ver361/advanced/images/e_print_toc.gif" --%>
-                                        <%--<%--"="" --%>
-                                        <%--onmouseout="menuMouseOutHandler(this,event);" --%>
-                                        <%--onkeydown="menuKeyDownHandler(event,'b0', 'Print\u0020selected\u0020topic=printTopic(\'You\u0020must\u0020select\u0020a\u0020valid\u0020topic\u0020to\u0020print\')@Print\u0020selected\u0020topic\u0020and\u0020all\u0020subtopics=printToc(\'You\u0020must\u0020select\u0020a\u0020valid\u0020topic\u0020to\u0020print\')');" --%>
-                                        <%--onclick="javascript:menu('print_toc', 'Print\u0020selected\u0020topic=printTopic(\'You\u0020must\u0020select\u0020a\u0020valid\u0020topic\u0020to\u0020print\')@Print\u0020selected\u0020topic\u0020and\u0020all\u0020subtopics=printToc(\'You\u0020must\u0020select\u0020a\u0020valid\u0020topic\u0020to\u0020print\')');">--%>
 
                                     </td>
                                     <%
