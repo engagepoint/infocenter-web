@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.eclipse</groupId>
-    <artifactId>infocenter</artifactId>
-    <version>3.6.0-EP-1</version>
+    <artifactId>org.eclipse</artifactId>
+    <version>1.0</version>
     <packaging>pom</packaging>
 
     <modules>

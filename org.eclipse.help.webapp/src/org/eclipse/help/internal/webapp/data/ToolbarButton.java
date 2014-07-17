@@ -19,85 +19,84 @@ import java.util.StringTokenizer;
  * the workbench scenario, not in the infocenter.
  */
 public class ToolbarButton {
-	private String name;
-	private String tooltip;
-	private String image;
-	private String action;
-	private String param;
-	private String styleClass;
-	private boolean state;
-	private boolean isSeparator;
+    private String name;
+    private String tooltip;
+    private String image;
+    private String action;
+    private String param;
+    private String styleClass;
+    private boolean state;
+    private boolean isSeparator;
 
-	public ToolbarButton() {
-		isSeparator = true;
-	}
+    public ToolbarButton() {
+        isSeparator = true;
+    }
 
-	public ToolbarButton(String name, String tooltip, String image,
-			String action, String param, String state) {
-		this.name = name;
-		this.tooltip = tooltip;
-		this.image = image;
-		this.action = action;
-		this.param = param;
-		this.state = state.equalsIgnoreCase("on")?true:false; //$NON-NLS-1$
-		if (state.startsWith("hid")) //$NON-NLS-1$
-			this.styleClass = "buttonHidden"; //$NON-NLS-1$
-		else if ("menu".equals(action)) { //$NON-NLS-1$
-			this.styleClass = "buttonMenu"; //$NON-NLS-1$
-		}
-		else
-			this.styleClass = state.equalsIgnoreCase("on")?"buttonOn":"button";   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
-	}
+    public ToolbarButton(String name, String tooltip, String image,
+                         String action, String param, String state) {
+        this.name = name;
+        this.tooltip = tooltip;
+        this.image = image;
+        this.action = action;
+        this.param = param;
+        this.state = state.equalsIgnoreCase("on") ? true : false; //$NON-NLS-1$
+        if (state.startsWith("hid")) //$NON-NLS-1$
+            this.styleClass = "buttonHidden"; //$NON-NLS-1$
+        else if ("menu".equals(action)) { //$NON-NLS-1$
+            this.styleClass = "buttonMenu"; //$NON-NLS-1$
+        } else
+            this.styleClass = state.equalsIgnoreCase("on") ? "buttonOn" : "button";   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+    }
 
-	public boolean isSeparator() {
-		return isSeparator;
-	}
+    public boolean isSeparator() {
+        return isSeparator;
+    }
 
-	public boolean isMenu() {
-		return "menu".equals(action); //$NON-NLS-1$
-	}
+    public boolean isMenu() {
+        return "menu".equals(action); //$NON-NLS-1$
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String[][] getMenuData() {
-		List list = new ArrayList();
-		StringTokenizer tok = new StringTokenizer(param, ","); //$NON-NLS-1$
-		while(tok.hasMoreTokens()) {
-			String token = tok.nextToken();
-			int index = token.indexOf('=');
-			list.add(new String[] { token.substring(0, index), token.substring(index + 1) });
-		}
-		return (String[][])list.toArray(new String[list.size()][]);
-	}
-	
-	public String getTooltip() {
-		return tooltip;
-	}
+    public String[][] getMenuData() {
+        List list = new ArrayList();
+        StringTokenizer tok = new StringTokenizer(param, ","); //$NON-NLS-1$
+        while (tok.hasMoreTokens()) {
+            String token = tok.nextToken();
+            int index = token.indexOf('=');
+            list.add(new String[]{token.substring(0, index), token.substring(index + 1)});
+        }
+        return (String[][]) list.toArray(new String[list.size()][]);
+    }
 
-	/**
-	 * Returns the image
-	 * 
-	 * @return String
-	 */
-	public String getImage() {
-		return image;
-	}
+    public String getTooltip() {
+        return tooltip;
+    }
 
-	public String getAction() {
-		return action;
-	}
+    /**
+     * Returns the image
+     *
+     * @return String
+     */
+    public String getImage() {
+        return image;
+    }
 
-	public String getParam() {
-		return param;
-	}
-	
-	public boolean isOn() {
-		return state;
-	}
-	
-	public String getStyleClass() {
-		return styleClass;
-	}	
+    public String getAction() {
+        return action;
+    }
+
+    public String getParam() {
+        return param;
+    }
+
+    public boolean isOn() {
+        return state;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
+    }
 }

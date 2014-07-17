@@ -8,36 +8,52 @@
  Contributors:
      IBM Corporation - initial API and implementation
 --%>
-<%@ include file="header.jsp"%>
-<% 
-	LayoutData data = new LayoutData(application,request, response);
+<%@ include file="header.jsp" %>
+<%
+    LayoutData data = new LayoutData(application, request, response);
 %>
 
 <html lang="<%=ServletResources.getString("locale", request)%>">
 
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><%=data.getWindowTitle()%></title>
-<jsp:include page="livehelp_js.jsp"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title><%=data.getWindowTitle()%>
+    </title>
+    <jsp:include page="livehelp_js.jsp"/>
 </head>
 
-<frameset rows="<%="0".equals(data.getBannerHeight())?"":data.getBannerHeight()+","%>45,*<%=data.getFooterRowText()%>">
 <%
-	if(!("0".equals(data.getBannerHeight()))){
+    String noscriptMessageHeight = "25";
+    String bannerHeight = data.getBannerHeight();
+    String footerRowText = data.getFooterRowText();
+    String framesetRows = noscriptMessageHeight + "," + bannerHeight + ",45,*" + footerRowText;
 %>
-	<frame name="BannerFrame" title="<%=ServletResources.getString("Banner", request)%>" src='<%=data.getBannerURL()%>'  marginwidth="0" marginheight="0" scrolling="no" frameborder="no" noresize>
-<%
-	}
-%>
-	<frame name="TabsFrame" title="<%=ServletResources.getString("helpToolbarFrame", request)%>" src='<%="basic/tabs.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' marginwidth="5" marginheight="5" scrolling="no">
-	<frame name="HelpFrame" title="<%=ServletResources.getString("ignore", "HelpFrame", request)%>" src='<%="basic/help.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' frameborder="no" marginwidth="0" marginheight="0" scrolling="no">
-<%
-	if(!("0".equals(data.getFooterHeight()))){
-%>
-	<frame name="FooterFrame" title="<%=ServletResources.getString("Footer", request)%>" src='<%=data.getFooterURL()%>'  marginwidth="0" marginheight="0" scrolling="no" frameborder="0" noresize=0>
-<%
-	}
-%>
+
+<frameset rows="<%=framesetRows%>">
+    <frame name="NoscriptMessageFrame" title="Noscript Message" src='basic/noscriptmessage.html' marginwidth="0"
+           marginheight="0" scrolling="no" frameborder="no" noresize>
+    <%
+        if (!("0".equals(data.getBannerHeight()))) {
+    %>
+    <frame name="BannerFrame" title="<%=ServletResources.getString("Banner", request)%>" src='<%=data.getBannerURL()%>'
+           marginwidth="0" marginheight="0" scrolling="no" frameborder="no" noresize>
+    <%
+        }
+    %>
+    <frame name="TabsFrame" title="<%=ServletResources.getString("helpToolbarFrame", request)%>"
+           src='<%="basic/tabs.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' marginwidth="5" marginheight="5"
+           scrolling="no">
+    <frame name="HelpFrame" title="<%=ServletResources.getString("ignore", "HelpFrame", request)%>"
+           src='<%="basic/help.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' frameborder="no" marginwidth="0"
+           marginheight="0" scrolling="no">
+    <%
+        if (!("0".equals(data.getFooterHeight()))) {
+    %>
+    <frame name="FooterFrame" title="<%=ServletResources.getString("Footer", request)%>" src='<%=data.getFooterURL()%>'
+           marginwidth="0" marginheight="0" scrolling="no" frameborder="0" noresize=0>
+    <%
+        }
+    %>
 
 </frameset>
 

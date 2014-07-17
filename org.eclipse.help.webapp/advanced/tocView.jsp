@@ -36,6 +36,15 @@
 
 <script language="JavaScript">
 
+//    document.onfocus = function() {
+//        var menu = document.getElementById("menu");
+//        console.log("OK1");
+//        if (menu != null) {
+//            console.log("OK");
+//            menu.focus();
+//        }
+//    };
+
 // Preload images
 var imagesDirectory = "<%=prefs.getImagesDirectory()%>";
 minus = new Image();
