@@ -57,4 +57,9 @@
 		<servlet-name>equinoxbridgeservlet</servlet-name>
 		<url-pattern>*.jsp</url-pattern>
 	</servlet-mapping>
+
+<!--    <security-role>
+        <role-name>onlinehelpadmin</role-name>
+    </security-role>-->
+
 </web-app>

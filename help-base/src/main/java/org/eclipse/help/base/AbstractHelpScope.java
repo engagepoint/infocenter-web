@@ -6,9 +6,6 @@ import org.eclipse.help.ITopic;
 
 import java.util.Locale;
 
-/**
- * Created by yaroslav on 7/14/14.
- */
 public abstract class AbstractHelpScope {
 
     public abstract String getName(Locale arg0);

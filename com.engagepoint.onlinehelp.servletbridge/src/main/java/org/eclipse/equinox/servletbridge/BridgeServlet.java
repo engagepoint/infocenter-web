@@ -11,9 +11,14 @@
  *******************************************************************************/
 package org.eclipse.equinox.servletbridge;
 
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
 
 /**
  * The BridgeServlet provides a means to bridge the servlet and OSGi 
@@ -35,14 +40,19 @@ public class BridgeServlet extends HttpServlet {
 	private int delegateReferenceCount;
 	private boolean enableFrameworkControls;
 
+    private static Set<String> availableRoles;
+
     public static ThreadLocal<String> role = new ThreadLocal<String>();
+
 
 	/**
 	 * init() is called by the Servlet Container and used to instantiate the frameworkLauncher which MUST be an instance of FrameworkLauncher.
 	 * After instantiating the framework init, deploy, and start are called.
 	 */
-	public void init() throws ServletException {
-		super.init();
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+
+        readAllRoles(config.getServletContext());
 
 		String enableFrameworkControlsParameter = getServletConfig().getInitParameter("enableFrameworkControls"); //$NON-NLS-1$
 		enableFrameworkControls = (enableFrameworkControlsParameter != null && enableFrameworkControlsParameter.equals("true")); //$NON-NLS-1$
@@ -91,7 +101,31 @@ public class BridgeServlet extends HttpServlet {
 	 *  
 	 */
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        role.set(req.getSession().getId());
+        if(req.getUserPrincipal()!=null)
+            System.out.println("Inside ServletBridge Principal "+req.getUserPrincipal().getName() );
+        System.out.println("Inside ServletBridge Is in Role "+req.isUserInRole("onlinehelpadmin") );
+/*        if(req.isUserInRole("onlinehelpadmin"))
+            role.set("onlinehelpadmin");
+        else
+            role.set(null);*/
+        String userRole = null;
+        for (String availableRole : availableRoles) {
+            userRole = req.isUserInRole(availableRole) ? availableRole : null;
+        }
+        role.set(userRole);
+
+
+
+
+
+/*        try {
+            Subject callerSubject = WSSubject.getCallerSubject();
+            callerSubject.getPrivateCredentials()
+
+        } catch (WSSecurityException e) {
+            e.printStackTrace();
+        }*/
+
 //        //Cookie cookie = new Cookie("filter", "%28testscope%29");
 //        boolean filterInRequest = false;
 //        for (Cookie cookie : req.getCookies()) {
@@ -314,5 +348,35 @@ public class BridgeServlet extends HttpServlet {
 			return super.getAttribute(attributeName);
 		}
 	}
+
+
+    private void readAllRoles(ServletContext context) {
+        String filepath = "/WEB-INF/roles.properties";
+        Properties property = new Properties();
+        InputStream input = null;
+        try {
+            input = context.getResourceAsStream(filepath);
+            property.load(input);
+        } catch (IOException ex) {
+            //throw new IOException(MessageFormat.format("Problem with loading default configurations file {0} ", filename), ex);
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    //logger.warn(MessageFormat.format("Failed to close {0} file", filename), e);
+                }
+            }
+        }
+
+        availableRoles = new HashSet<String>();
+        for (Object role : property.values()) {
+            availableRoles.addAll(parseRolesValue(role.toString()));
+        }
+    }
+
+    private List<String> parseRolesValue(String value) {
+        return Arrays.asList(value.split(","));
+    }
 
 }

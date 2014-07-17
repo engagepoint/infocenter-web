@@ -19,7 +19,10 @@ public class HttpRequestWrapper extends HttpServletRequestWrapper {
 
     @Override
     public Cookie[] getCookies() {
-        List<Cookie> cookies = new LinkedList<Cookie>(Arrays.asList(super.getCookies()));
+        Cookie[] array = super.getCookies();
+        if(array==null)
+            return null;
+        List<Cookie> cookies =  new LinkedList<Cookie>(Arrays.asList(array));
         boolean containFilterName = false;
         ListIterator<Cookie> iterator = cookies.listIterator();
         while(iterator.hasNext()){
@@ -36,7 +39,6 @@ public class HttpRequestWrapper extends HttpServletRequestWrapper {
         }
         if ( ! containFilterName)
             cookies.add(new Cookie(FILTER, SCOPE));
-
 
         return cookies.toArray(new Cookie[cookies.size()]);
     }

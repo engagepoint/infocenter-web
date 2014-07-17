@@ -20,6 +20,13 @@
             <version>2.4</version>
             <scope>provided</scope>
         </dependency>
+
+<!--        <dependency>
+            <groupId>com.ibm.ws.runtime</groupId>
+            <artifactId>com.ibm.ws.runtime</artifactId>
+            <version>7.0.0</version>
+            <scope>provided</scope>
+        </dependency>-->
         <!--<dependency>-->
             <!--<groupId>org.eclipse.equinox</groupId>-->
             <!--<artifactId>org.eclipse.equinox.servletbridge</artifactId>-->
