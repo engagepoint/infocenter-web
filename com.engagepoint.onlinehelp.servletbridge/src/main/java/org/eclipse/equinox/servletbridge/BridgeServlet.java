@@ -40,19 +40,12 @@ public class BridgeServlet extends HttpServlet {
 	private int delegateReferenceCount;
 	private boolean enableFrameworkControls;
 
-    private static Set<String> availableRoles;
-
-    public static ThreadLocal<String> role = new ThreadLocal<String>();
-
-
 	/**
 	 * init() is called by the Servlet Container and used to instantiate the frameworkLauncher which MUST be an instance of FrameworkLauncher.
 	 * After instantiating the framework init, deploy, and start are called.
 	 */
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-
-        readAllRoles(config.getServletContext());
+	public void init() throws ServletException {
+		super.init();
 
 		String enableFrameworkControlsParameter = getServletConfig().getInitParameter("enableFrameworkControls"); //$NON-NLS-1$
 		enableFrameworkControls = (enableFrameworkControlsParameter != null && enableFrameworkControlsParameter.equals("true")); //$NON-NLS-1$
@@ -101,45 +94,6 @@ public class BridgeServlet extends HttpServlet {
 	 *  
 	 */
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.getUserPrincipal()!=null)
-            System.out.println("Inside ServletBridge Principal "+req.getUserPrincipal().getName() );
-        System.out.println("Inside ServletBridge Is in Role "+req.isUserInRole("onlinehelpadmin") );
-/*        if(req.isUserInRole("onlinehelpadmin"))
-            role.set("onlinehelpadmin");
-        else
-            role.set(null);*/
-        String userRole = null;
-        for (String availableRole : availableRoles) {
-            userRole = req.isUserInRole(availableRole) ? availableRole : null;
-        }
-        role.set(userRole);
-
-
-
-
-
-/*        try {
-            Subject callerSubject = WSSubject.getCallerSubject();
-            callerSubject.getPrivateCredentials()
-
-        } catch (WSSecurityException e) {
-            e.printStackTrace();
-        }*/
-
-//        //Cookie cookie = new Cookie("filter", "%28testscope%29");
-//        boolean filterInRequest = false;
-//        for (Cookie cookie : req.getCookies()) {
-//            if("filter".equals(cookie.getName())){
-//                cookie.setValue("%28testscope%29");
-//                filterInRequest = true;
-//            }
-//        }
-//        if( ! filterInRequest)
-//            resp.addCookie(new Cookie("filter", "%28testscope%29"));
-
-
-        req = new HttpRequestWrapper(req);
-
 		String pathInfo = req.getPathInfo();
 		// Check if this is being handled by an extension mapping
 		if (pathInfo == null && isExtensionMapping(req.getServletPath()))
@@ -348,35 +302,5 @@ public class BridgeServlet extends HttpServlet {
 			return super.getAttribute(attributeName);
 		}
 	}
-
-
-    private void readAllRoles(ServletContext context) {
-        String filepath = "/WEB-INF/roles.properties";
-        Properties property = new Properties();
-        InputStream input = null;
-        try {
-            input = context.getResourceAsStream(filepath);
-            property.load(input);
-        } catch (IOException ex) {
-            //throw new IOException(MessageFormat.format("Problem with loading default configurations file {0} ", filename), ex);
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    //logger.warn(MessageFormat.format("Failed to close {0} file", filename), e);
-                }
-            }
-        }
-
-        availableRoles = new HashSet<String>();
-        for (Object role : property.values()) {
-            availableRoles.addAll(parseRolesValue(role.toString()));
-        }
-    }
-
-    private List<String> parseRolesValue(String value) {
-        return Arrays.asList(value.split(","));
-    }
 
 }
