@@ -12,13 +12,12 @@ import java.util.*;
  */
 @WebFilter(urlPatterns = {"/*"}, description = "Security Filter")
 public class SecurityFilter implements Filter {
-    private static Set<String> availableRoles;
+    private static Set<String> availableRoles = new HashSet<String>();
     private static ThreadLocal<String> role = new ThreadLocal<String>();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         readAllRoles(filterConfig.getServletContext());
-        availableRoles = new HashSet<String>();
     }
 
     @Override
@@ -69,5 +68,9 @@ public class SecurityFilter implements Filter {
 
     private List<String> parseRolesValue(String value) {
         return Arrays.asList(value.split(","));
+    }
+
+    public static String getRole(){
+        return role.get();
     }
 }
