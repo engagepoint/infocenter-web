@@ -54,8 +54,18 @@
 		<url-pattern>*.jsp</url-pattern>
 	</servlet-mapping>
 
-<!--    <security-role>
+    <!--<security-role>
         <role-name>onlinehelpadmin</role-name>
-    </security-role>-->
+    </security-role>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Secure Books</web-resource-name>
+            <url-pattern>/index.jsp?topic=%2Fcom.engagepoint.help-NewTitleForMultipleContent%2FSortingMessages.html</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>onlinehelpadmin</role-name>
+        </auth-constraint>
+    </security-constraint>-->
 
 </web-app>
