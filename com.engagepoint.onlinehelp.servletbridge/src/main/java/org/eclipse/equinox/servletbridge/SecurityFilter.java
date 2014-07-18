@@ -14,14 +14,11 @@ import java.util.*;
 public class SecurityFilter implements Filter {
     private static Set<String> availableRoles = new HashSet<String>();
     private static ThreadLocal<String> role = new ThreadLocal<String>();
-    private static InputStream rolesStream;
     private static final String ROLE_FILE_PATH = "/WEB-INF/roles.properties";
     private static Properties rolesProperties;
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        //if(rolesStream == null)
-        //    rolesStream = filterConfig.getServletContext().getResourceAsStream(ROLE_FILE_PATH);
         rolesProperties = readRolesProperties(filterConfig.getServletContext().getResourceAsStream(ROLE_FILE_PATH));
         readAllRoles(rolesProperties);
     }
@@ -30,9 +27,6 @@ public class SecurityFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         String userRole = null;
-        if(req.getUserPrincipal()!=null)
-            System.out.println("Inside SecurityFilter Principal "+req.getUserPrincipal().getName() );
-        System.out.println("Inside SecurityFilter isUserInRole onlinehelpadmin  ->"+req.isUserInRole("onlinehelpadmin") );
         for (String availableRole : availableRoles) {
             userRole = req.isUserInRole(availableRole) ? availableRole : null;
             if(userRole != null)
@@ -46,13 +40,6 @@ public class SecurityFilter implements Filter {
 
     @Override
     public void destroy() {
-        if(rolesStream != null){
-            try {
-                rolesStream.close();
-            } catch (IOException e) {
-                //logger.warn(MessageFormat.format("Failed to close {0} file", filename), e);
-            }
-        }
     }
 
     public static String getRole(){
