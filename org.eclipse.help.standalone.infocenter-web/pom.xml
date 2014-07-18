@@ -12,6 +12,7 @@
 
     <groupId>org.eclipse.help.standalone</groupId>
     <artifactId>org.eclipse.help.standalone.infocenter-web</artifactId>
+    <version>3.6.0-EP-2</version>
     <packaging>war</packaging>
 
     <properties>
