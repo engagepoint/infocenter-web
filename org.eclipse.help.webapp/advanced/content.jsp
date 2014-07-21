@@ -48,19 +48,28 @@
 
     <script>
         function changeRootHREF() {
-            var contentHREF = window.frames[1].window.location.href;
-            console.log("contentURI = " + contentHREF);
-            if (contentHREF) {
-                var rootHREF = parent.parent.window.location.href;
-                console.log("rootURI = " + rootHREF);
-                if (contentHREF.indexOf('/topic/org.eclipse.help.base/') == -1 && rootHREF) {
-                    var indexOfCp = contentHREF.indexOf('?cp=');
-                    if (indexOfCp != -1) {
-                        contentHREF = contentHREF.substring(0, indexOfCp);
+            try {
+                var contentHREF = window.frames[1].window.location.href;
+                if (contentHREF) {
+                    console.log("contentURI = " + contentHREF);
+                    var rootHREF = parent.parent.window.location.href;
+                    console.log("rootURI = " + rootHREF);
+                    var contentDomain = contentHREF.substring(0, contentHREF.indexOf('/'));
+                    var rootDomain = rootHREF.substring(0, rootHREF.indexOf('/'));
+                    if (contentDomain == rootDomain) {
+                        var indexOfHome = contentHREF.indexOf('/topic/org.eclipse.help.base/');
+                        if (indexOfHome == -1) {
+                            var indexOfCp = contentHREF.indexOf('?cp=');
+                            if (indexOfCp != -1) {
+                                contentHREF = contentHREF.substring(0, indexOfCp);
+                            }
+                        } else if (contentHREF.indexOf('/index.jsp') == -1) {
+                            contentHREF = contentHREF.substring(0, indexOfHome) + "/index.jsp";
+                        }
+                        parent.parent.window.history.replaceState('', '', contentHREF);
                     }
-                    parent.parent.window.history.replaceState('', '', contentHREF);
                 }
-            }
+            } catch(e) {}
         }
     </script>
 
