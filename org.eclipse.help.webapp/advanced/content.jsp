@@ -53,12 +53,12 @@
             if (contentHREF) {
                 var rootHREF = parent.parent.window.location.href;
                 console.log("rootURI = " + rootHREF);
-                if (!contentHREF.contains('/topic/org.eclipse.help.base/') && rootHREF) {
+                if (contentHREF.indexOf('/topic/org.eclipse.help.base/') == -1 && rootHREF) {
                     var indexOfCp = contentHREF.indexOf('?cp=');
                     if (indexOfCp != -1) {
                         contentHREF = contentHREF.substring(0, indexOfCp);
                     }
-                    parent.parent.window.history.pushState('', '', contentHREF);
+                    parent.parent.window.history.replaceState('', '', contentHREF);
                 }
             }
         }
@@ -71,7 +71,7 @@
            src='<%="contentToolbar.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' marginwidth="0" marginheight="0"
            scrolling="no" frameborder="0">
     <frame ACCESSKEY="K" name="ContentViewFrame" title="<%=ServletResources.getString("topicView", request)%>"
-           src='<%=UrlUtil.htmlEncode(data.getContentURL())%>' onload="return changeRootHREF()"
+           src='<%=UrlUtil.htmlEncode(data.getContentURL())%>' onload="changeRootHREF();return true;"
            marginwidth="10"<%=(data.isIE() && "6.0".compareTo(data.getIEVersion()) <=0)?"scrolling=\"yes\"":""%>
            marginheight="0" frameborder="0">
     <%
