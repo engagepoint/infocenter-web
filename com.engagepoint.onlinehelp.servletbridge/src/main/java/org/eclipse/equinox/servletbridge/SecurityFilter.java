@@ -52,9 +52,9 @@ public class SecurityFilter implements Filter {
         boolean result = true;
         for (String label : labelRolesMap.keySet()) {
             String labelWithoutSpaces = label.replaceAll("\\s+","");
-            if(url.contains(String.format("topic=/com.engagepoint.help-%s",labelWithoutSpaces)) ||
-                    url.contains(String.format("topic=com.engagepoint.help-%s",labelWithoutSpaces))||
-                    url.contains(String.format("topic/com.engagepoint.help-%s",labelWithoutSpaces))){
+            if(url.contains(String.format("topic=/%s",labelWithoutSpaces)) ||
+                    url.contains(String.format("topic=%s",labelWithoutSpaces))||
+                    url.contains(String.format("topic/%s",labelWithoutSpaces))){
                 result = showTopic(label, userRole);
             }
         }
