@@ -3,6 +3,7 @@ package org.eclipse.equinox.servletbridge;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
@@ -14,25 +15,22 @@ import java.util.*;
 public class SecurityFilter implements Filter {
     private static Set<String> availableRoles = new HashSet<String>();
     private static ThreadLocal<String> role = new ThreadLocal<String>();
-    private static InputStream rolesStream;
     private static final String ROLE_FILE_PATH = "/WEB-INF/roles.properties";
-    private static Properties rolesProperties;
+    private static Map<String, Set<String>> labelRolesMap = new HashMap<String, Set<String>>();
+    private static final String SECURITY_ERROR_PAGE = "/non-existing.jsp";
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        //if(rolesStream == null)
-        //    rolesStream = filterConfig.getServletContext().getResourceAsStream(ROLE_FILE_PATH);
-        rolesProperties = readRolesProperties(filterConfig.getServletContext().getResourceAsStream(ROLE_FILE_PATH));
+        Properties rolesProperties = readRolesProperties(filterConfig.getServletContext().getResourceAsStream(ROLE_FILE_PATH));
         readAllRoles(rolesProperties);
     }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
+        HttpServletResponse res = (HttpServletResponse) response;
+
         String userRole = null;
-        if(req.getUserPrincipal()!=null)
-            System.out.println("Inside SecurityFilter Principal "+req.getUserPrincipal().getName() );
-        System.out.println("Inside SecurityFilter isUserInRole onlinehelpadmin  ->"+req.isUserInRole("onlinehelpadmin") );
         for (String availableRole : availableRoles) {
             userRole = req.isUserInRole(availableRole) ? availableRole : null;
             if(userRole != null)
@@ -40,38 +38,62 @@ public class SecurityFilter implements Filter {
         }
         System.out.println("Set user role "+userRole);
         role.set(userRole);
+
+        if( ! securityConstraint(userRole, req.getRequestURI()) )
+            res.sendRedirect(SECURITY_ERROR_PAGE);
+            //res.setStatus(401);
+
+
         req = new HttpRequestWrapper(req);
         chain.doFilter(req,response);
     }
 
-    @Override
-    public void destroy() {
-        if(rolesStream != null){
-            try {
-                rolesStream.close();
-            } catch (IOException e) {
-                //logger.warn(MessageFormat.format("Failed to close {0} file", filename), e);
+    private boolean securityConstraint(String userRole, String url) {
+        boolean result = true;
+        for (String label : labelRolesMap.keySet()) {
+            String labelWithoutSpaces = label.replaceAll("\\s+","");
+            if(url.contains(String.format("topic=/com.engagepoint.help-%s",labelWithoutSpaces)) ||
+                    url.contains(String.format("topic=com.engagepoint.help-%s",labelWithoutSpaces))||
+                    url.contains(String.format("topic/com.engagepoint.help-%s",labelWithoutSpaces))){
+                result = showTopic(label, userRole);
             }
         }
+        return result;
     }
 
-    public static String getRole(){
+    @Override
+    public void destroy() {
+    }
+
+    public static  String getRole(){
         return role.get();
     }
 
-    public static Map<String, Set<String>> getLabelRolesMap() {
-        Map<String, Set<String>> labelRolesMap = new HashMap<String, Set<String>>();
-
-        for (Object o : rolesProperties.keySet()) {
-            String key = o.toString();
-            labelRolesMap.put(key, parseRolesValue(rolesProperties.getProperty(key)));
-        }
+    public static  Map<String, Set<String>> getLabelRolesMap() {
         return labelRolesMap;
+    }
+
+    public static boolean showTopic(String label, String role){
+        Set<String> roles = labelRolesMap.get(label);
+        if(role != null){
+            if(roles != null) {
+                return roles.contains(role);
+            }else{
+                return true;
+            }
+        }else{
+            return roles==null;
+        }
     }
 
     private void readAllRoles(Properties property) {
         for (Object role : property.values()) {
             availableRoles.addAll(parseRolesValue(role.toString()));
+        }
+
+        for (Object o : property.keySet()) {
+            String key = o.toString();
+            labelRolesMap.put(key, parseRolesValue(property.getProperty(key)));
         }
     }
 
