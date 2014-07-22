@@ -349,7 +349,7 @@ public class IndexFragmentServlet extends HttpServlet {
 			
 				String href;
 				if (singleTopic) {
-					href = UrlUtil.getHelpURL((entry.getTopics()[0]).getHref());
+					href = UrlUtil.getHelpURL((topics[0]).getHref());
 				    buf.append('\n' + "      href=\"" +  //$NON-NLS-1$
 				    	XMLGenerator.xmlEscape(href) + "\""); //$NON-NLS-1$
 				}
