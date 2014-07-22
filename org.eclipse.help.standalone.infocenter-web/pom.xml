@@ -268,7 +268,8 @@
                                 <!-- customize org.eclipse.help.base -->
                                 <mkdir dir="${project.build.directory}/temp/jar2" />
                                 <unzip dest="${project.build.directory}/temp/jar2">
-                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
+                                    <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
+                                    <fileset dir="${project.basedir}/../org.eclipse.help.base/target">
                                         <include name="org.eclipse.help.base_*.jar" />
                                     </fileset>
                                 </unzip>

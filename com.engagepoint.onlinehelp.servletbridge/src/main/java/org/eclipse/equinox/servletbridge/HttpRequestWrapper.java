@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class HttpRequestWrapper extends HttpServletRequestWrapper {
     private static final String FILTER = "filter";
-    private static final String SCOPE = "(testscope)";
+    private static final String SCOPE = "(security)";
 
 
     public HttpRequestWrapper(HttpServletRequest request) {
