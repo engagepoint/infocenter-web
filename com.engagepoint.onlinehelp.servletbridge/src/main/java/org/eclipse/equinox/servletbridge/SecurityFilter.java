@@ -40,9 +40,7 @@ public class SecurityFilter implements Filter {
         role.set(userRole);
 
         if( ! securityConstraint(userRole, req.getRequestURI()) )
-            res.sendRedirect(SECURITY_ERROR_PAGE);
-            //res.setStatus(401);
-
+            res.sendError(HttpServletResponse.SC_FORBIDDEN);
 
         req = new HttpRequestWrapper(req);
         chain.doFilter(req,response);
