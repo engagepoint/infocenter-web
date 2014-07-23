@@ -237,7 +237,7 @@ function doSubmit()
 
 		var criteria = getSelectedCriteriaResources();
 		var query = "operation="+'<%=UrlUtil.JavaScriptEncode(data.getOperation())%>'+"&workingSet="+encodeURIComponent(workingSet)+ hrefs+criteria+"&oldName="+encodeURIComponent(oldName);
-		window.opener.location.replace("../workingSetState.jsp?"+query);
+		window.opener.location.replace("workingSetManager.jsp?"+query);
 	    window.opener.focus();
 		window.close();
 	} catch(ex) {alert("Error..." + ex.message)}
