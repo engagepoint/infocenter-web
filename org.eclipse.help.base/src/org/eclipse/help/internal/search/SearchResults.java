@@ -231,7 +231,9 @@ public class SearchResults implements ISearchHitCollector {
 			// Test for href attached to Toc element
 			topic = nextToc.getTopic(null);
 			if (topic != null && href != null && href.equals(topic.getHref())) {
-				return nextToc;
+                if (filter == null || filter.inScope(topic)) {
+                    return nextToc;
+                }
 			}
 		}
 		if (!foundInToc) {
