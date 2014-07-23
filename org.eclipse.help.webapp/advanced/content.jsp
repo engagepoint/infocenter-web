@@ -71,6 +71,10 @@
                 }
             } catch(e) {}
         }
+
+        function changeRootTitle() {
+            parent.parent.document.title = "OnlineHelp - " + window.frames[1].document.title;
+        }
     </script>
 
 </head>
@@ -80,7 +84,7 @@
            src='<%="contentToolbar.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' marginwidth="0" marginheight="0"
            scrolling="no" frameborder="0">
     <frame ACCESSKEY="K" name="ContentViewFrame" title="<%=ServletResources.getString("topicView", request)%>"
-           src='<%=UrlUtil.htmlEncode(data.getContentURL())%>' onload="changeRootHREF();return true;"
+           src='<%=UrlUtil.htmlEncode(data.getContentURL())%>' onload="changeRootHREF();changeRootTitle();return true;"
            marginwidth="10"<%=(data.isIE() && "6.0".compareTo(data.getIEVersion()) <=0)?"scrolling=\"yes\"":""%>
            marginheight="0" frameborder="0">
     <%
