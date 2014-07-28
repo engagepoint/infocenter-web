@@ -97,10 +97,10 @@ if (data.isMozilla()) {
 
 </style>
 
-<script language="JavaScript" src="resize.js"></script>
-<script language="JavaScript" src="utils.js"></script>
-<script language="JavaScript" src="list.js"></script>
-<script language="JavaScript">
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="utils.js"></script>
+<script type="text/javascript" src="list.js"></script>
+<script type="text/javascript">
 
 function highlightHandler()
 {
@@ -148,12 +148,14 @@ function sizeButtons() {
 
 function enableButtons() {
 	if (document.getElementById('selectws').checked){
-		document.getElementById("edit").disabled = (active == null);
-		document.getElementById("remove").disabled = (active == null);
-		document.getElementById("ok").disabled = (active == null);	
+		document.getElementById("edit").disabled = (active == null );
+		document.getElementById("remove").disabled = (active == null );
+		document.getElementById("ok").disabled = (active == null );
 	} else {
-		document.getElementById("edit").disabled = true;
-		document.getElementById("remove").disabled = true;
+        document.getElementById("edit").setAttribute("disabled","disabled")
+        document.getElementById("remove").setAttribute("disabled","disabled")
+		//document.getElementById("edit").disabled = true;
+		//document.getElementById("remove").disabled = true;
 		document.getElementById("ok").disabled = false;
 	}
 }
@@ -268,9 +270,9 @@ function sizeList() {
 
 </head>
 
-<body dir="<%=direction%>" onload="onloadHandler()" onunload="closeWorkingSetDialog()" onresize = "sizeList()">
-<form onsubmit="selectWorkingSet();return false;">
-  	<table id="filterTable" cellspacing=0 cellpadding=0 border=0 align=center  style="background:<%=prefs.getToolbarBackground()%>; font:<%=prefs.getToolbarFont()%>;margin-top:5px;width:100%;">
+<body dir="<%=direction%>" onload="onloadHandler()" onunload="closeWorkingSetDialog()" >  <!--onresize = "sizeList()"-->
+<form onsubmit="selectWorkingSet();return false;" action="#">
+  	<table id="filterTable" cellspacing=0 cellpadding=0 border=0  style="text-align:left; background:<%=prefs.getToolbarBackground()%>; font:<%=prefs.getToolbarFont()%>;margin-top:5px;width:100%;">
         <th></th>
 		<tr><td class="radio">
 			<input id="alldocs" type="radio" name="workingSet" onclick="enableButtons()"><label for="alldocs" accesskey="<%=ServletResources.getAccessKey("selectAll", request)%>"><%=ServletResources.getLabel("selectAll", request)%></label>
@@ -292,7 +294,7 @@ for (int i=0; i<wsets.length; i++)
 		workingSetId = "a" + i;
 %>
 <tr class='list' id='r<%=i%>' style="width:100%;">
-	<td align='<%=isRTL?"right":"left"%>' class='label' nowrap style="width:100%; padding-left:5px;">
+	<td align='<%=isRTL?"right":"left"%>' class='label' style="width:100%; padding-left:5px; white-space:nowrap">
 		<a id='a<%=i%>' 
 		   href='#' 
 		   onclick="active=this;highlightHandler()"
@@ -318,14 +320,14 @@ for (int i=0; i<wsets.length; i++)
 						<button type="button" onclick="newWorkingSet()" id="new" accesskey="<%=ServletResources.getAccessKey("NewWorkingSetButton", request)%>"><%=ServletResources.getLabel("NewWorkingSetButton", request)%></button>
 					</td>
 					<td>
-					  	<button type="button"  onclick="editWorkingSet()" id="edit" disabled='<%=data.getWorkingSet() == null ?"true":"false"%>' accesskey="<%=ServletResources.getAccessKey("EditWorkingSetButton", request)%>"><%=ServletResources.getLabel("EditWorkingSetButton", request)%></button>
+					  	<button type="button"  onclick="editWorkingSet()" id="edit" disabled="disabled" accesskey="<%=ServletResources.getAccessKey("EditWorkingSetButton", request)%>"><%=ServletResources.getLabel("EditWorkingSetButton", request)%></button>
 					</td>
 					<td>
-					  	<button type="button"  onclick="removeWorkingSet()" id="remove" disabled='<%=data.getWorkingSet() == null ?"true":"false"%>' accesskey="<%=ServletResources.getAccessKey("RemoveWorkingSetButton", request)%>"><%=ServletResources.getLabel("RemoveWorkingSetButton", request)%></button>
+					  	<button type="button"  onclick="removeWorkingSet()" id="remove" disabled="disabled" accesskey="<%=ServletResources.getAccessKey("RemoveWorkingSetButton", request)%>"><%=ServletResources.getLabel("RemoveWorkingSetButton", request)%></button>
 					</td>
 				</tr>
   			</table>
-	<table align="<%=isRTL?"left":"right"%>" style="background:<%=prefs.getToolbarBackground()%>">
+	<table style="background:<%=prefs.getToolbarBackground()%>; text-align: <%=isRTL?"left":"right"%>">
 		<tr id="buttonsTable"><td align="<%=isRTL?"left":"right"%>">
   			<table cellspacing=0 cellpadding=0 border=0 style="background:transparent;">
                 <th></th>
@@ -342,7 +344,7 @@ for (int i=0; i<wsets.length; i++)
 	</table>
 </div>
 </form>
-<script language="JavaScript">
+<script type="text/javascript">
 	var selected = selectTopicById('<%=UrlUtil.JavaScriptEncode(workingSetId)%>');
 	if (!selected)
 		document.getElementById("alldocs").checked = true;
