@@ -24,9 +24,11 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <div>
 <noscript>
 <meta HTTP-EQUIV="REFRESH" CONTENT="0;URL=index.jsp?noscript=1">
 </noscript>
+    </div>
 <title><%=data.getWindowTitle()%></title>
 <jsp:include page="livehelp_js.jsp"/>
 
@@ -71,20 +73,20 @@ if (data.isMozilla()){
 </script>
 </head>
 
-<frameset id="indexFrameset" onload="onloadHandler()" rows="<%="0".equals(data.getBannerHeight())?"":data.getBannerHeight()+","%>24,*<%=data.getFooterRowText()%>"  frameborder="0" framespacing="0" border=0 spacing=0>
+<frameset id="indexFrameset" onload="onloadHandler()" rows="<%="0".equals(data.getBannerHeight())?"":data.getBannerHeight()+","%>24,*<%=data.getFooterRowText()%>"  frameborder="0"  >
 <%
 	if(!("0".equals(data.getBannerHeight()))){
 %>
-	<frame name="BannerFrame" title="<%=ServletResources.getString("Banner", request)%>" src='<%=data.getBannerURL()%>'  tabIndex="3" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" noresize=0>
+	<frame name="BannerFrame" title="<%=ServletResources.getString("Banner", request)%>" src='<%=data.getBannerURL()%>'   marginwidth="0" marginheight="0" scrolling="no" frameborder="0" noresize="noresize">
 <%
 	}
 %>
-	<frame name="HelpToolbarFrame" title="<%=ServletResources.getString("ignore", "HelpToolbarFrame", request)%>" src='<%="advanced/helpToolbar.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' marginwidth="0" marginheight="0" scrolling="no" frameborder="0" noresize=0>
+	<frame name="HelpToolbarFrame" title="<%=ServletResources.getString("ignore", "HelpToolbarFrame", request)%>" src='<%="advanced/helpToolbar.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' marginwidth="0" marginheight="0" scrolling="no" frameborder="0" noresize="noresize">
 	<frame name="HelpFrame" title="<%=ServletResources.getString("ignore", "HelpFrame", request)%>" src='<%="advanced/help.jsp"+UrlUtil.htmlEncode(data.getQuery())%>' marginwidth="0" marginheight="0" scrolling="no" frameborder="0" >
 <%
 	if(!("0".equals(data.getFooterHeight()))){
 %>
-	<frame name="FooterFrame" title="<%=ServletResources.getString("Footer", request)%>" src='<%=data.getFooterURL()%>'  marginwidth="0" marginheight="0" scrolling="no" frameborder="0" noresize=0>
+	<frame name="FooterFrame" title="<%=ServletResources.getString("Footer", request)%>" src='<%=data.getFooterURL()%>'  marginwidth="0" marginheight="0" scrolling="no" frameborder="0" noresize="noresize">
 <%
 	}
 %>
