@@ -88,10 +88,10 @@ if (data.isMozilla()) {
 
 </style>
 
-<script language="JavaScript" src="resize.js"></script>
-<script language="JavaScript" src="utils.js"></script>
-<script language="JavaScript" src="list.js"></script>
-<script language="JavaScript">
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="utils.js"></script>
+<script type="text/javascript" src="list.js"></script>
+<script type="text/javascript">
 
 var quickSearchType = "<%=quickSearchType%>";
 
@@ -128,8 +128,8 @@ function doQuickSearch(){
 </head>
 
 <body dir="<%=direction%>" onload="onloadHandler()" >
-<form onsubmit="doQuickSearch();return false;">
-    <div id="typeinContainer" role="search">
+<form onsubmit="doQuickSearch();return false;" action="">
+    <div id="typeinContainer" >
         <label id="searchLabel"
 		        for="searchWord"
 		        accesskey="<%=ServletResources.getAccessKey("SearchExpressionColon", request)%>">
@@ -142,7 +142,7 @@ function doQuickSearch(){
    </div>
 
 	<div id="buttonArea">
-		<table align="<%=isRTL?"left":"right"%>" style="background:<%=prefs.getToolbarBackground()%>">
+		<table style="text-align: <%=isRTL?"left":"right"%>; background:<%=prefs.getToolbarBackground()%>">
             <th></th>
 			<tr id="buttonsTable"><td align="<%=isRTL?"left":"right"%>">
 	  			<table cellspacing=0 cellpadding=0 border=0 style="background:transparent;">
