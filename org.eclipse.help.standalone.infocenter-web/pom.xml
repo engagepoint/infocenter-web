@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <artifactId>org.eclipse</artifactId>
         <groupId>org.eclipse</groupId>
         <version>1.0</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.eclipse.help.standalone</groupId>
     <artifactId>org.eclipse.help.standalone.infocenter-web</artifactId>
@@ -16,6 +16,37 @@
     <packaging>war</packaging>
 
     <properties>
+        <!-- Resources download links -->
+        <eclipse.sdk.download.link>http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/eclipse/downloads/drops4/R-4.3.2-201402211700/eclipse-SDK-4.3.2-win32.zip</eclipse.sdk.download.link>
+        <equinox.sdk.download.link>http://ftp.roedu.net/mirrors/eclipse.org//equinox/drops/R-3.8.2-201302041200/equinox-SDK-3.8.2.zip</equinox.sdk.download.link>
+
+        <!-- Project build temp directory to make cleaner default ${project.build.directory} -->
+        <temp.directory>${project.build.directory}/temp</temp.directory>
+
+        <!-- Plugins's subdirectories -->
+        <maven-download-plugin.outputDirectory.eclipse>${temp.directory}</maven-download-plugin.outputDirectory.eclipse>
+        <maven-download-plugin.outputDirectory.equinox>${temp.directory}/equinox</maven-download-plugin.outputDirectory.equinox>
+        <maven-war-plugin.webResources.directory>${temp.directory}/war</maven-war-plugin.webResources.directory>
+
+        <!-- OSGi bundles locations -->
+        <eclipse-sdk.plugins.location>${temp.directory}/eclipse/plugins</eclipse-sdk.plugins.location>
+        <equinox-sdk.plugins.location>${temp.directory}/equinox/plugins</equinox-sdk.plugins.location>
+        <infocenter-web.plugins.location>${maven-war-plugin.webResources.directory}/WEB-INF/plugins</infocenter-web.plugins.location>
+
+        <!-- org.eclipse.help.webapp customisation properties -->
+        <webapp.filename.pattern>org.eclipse.help.webapp_*.jar</webapp.filename.pattern>
+        <webapp.origin.basedir.location>${project.basedir}/../org.eclipse.help.webapp/target</webapp.origin.basedir.location>
+        <webapp.build.directory>${temp.directory}/webapp</webapp.build.directory>
+
+        <!-- org.eclipse.help.base customisation properties -->
+        <base.filename.pattern>org.eclipse.help.base_*.jar</base.filename.pattern>
+        <base.origin.basedir.location>${project.basedir}/../org.eclipse.help.base/target</base.origin.basedir.location>
+        <base.build.directory>${temp.directory}/base</base.build.directory>
+
+        <!-- Additional maven properties -->
+        <project.resources.directory>${project.basedir}/src/main/webapp/resources</project.resources.directory>
+
+        <!-- Cargo properties -->
         <tomcat.major>6</tomcat.major>
         <tomcat.version>6.0.39</tomcat.version>
         <cargo.servlet.port>12345</cargo.servlet.port>
@@ -30,11 +61,6 @@
             <version>2.4</version>
             <scope>provided</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.eclipse.equinox</groupId>-->
-            <!--<artifactId>org.eclipse.equinox.servletbridge</artifactId>-->
-            <!--<version>1.2.2</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>com.engagepoint.onlinehelp</groupId>
             <artifactId>com.engagepoint.onlinehelp.servletbridge</artifactId>
@@ -51,12 +77,11 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <!--<excludes>**/*</excludes>-->
                     <includes>**/*.class</includes>
                     <includes>**/web.xml</includes>
                     <webResources>
                         <resource>
-                            <directory>${project.build.directory}/temp/war</directory>
+                            <directory>${maven-war-plugin.webResources.directory}</directory>
                             <includes>
                                 <include>**/*</include>
                             </includes>
@@ -79,7 +104,7 @@
                         <configuration>
                             <url>${eclipse.sdk.download.link}</url>
                             <unpack>true</unpack>
-                            <outputDirectory>${project.build.directory}/temp</outputDirectory>
+                            <outputDirectory>${maven-download-plugin.outputDirectory.eclipse}</outputDirectory>
                         </configuration>
                     </execution>
                     <execution>
@@ -91,7 +116,7 @@
                         <configuration>
                             <url>${equinox.sdk.download.link}</url>
                             <unpack>true</unpack>
-                            <outputDirectory>${project.build.directory}/temp/equinox</outputDirectory>
+                            <outputDirectory>${maven-download-plugin.outputDirectory.equinox}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
@@ -105,17 +130,23 @@
                         <phase>compile</phase>
                         <configuration>
                             <tasks>
-                                <unzip dest="${project.build.directory}/temp/webapp">
-                                    <patternset>
-                                        <include name="**/web-archive/help/WEB-INF/**" />
-                                        <!--<exclude name="**/web.xml" />-->
-                                    </patternset>
-                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
-                                        <include name="org.eclipse.help.webapp_*.jar" />
+                                <!-- customize org.eclipse.help.webapp -->
+                                <mkdir dir="${webapp.build.directory}"/>
+                                <unzip dest="${webapp.build.directory}">
+                                    <fileset dir="${webapp.origin.basedir.location}">
+                                        <include name="${webapp.filename.pattern}"/>
                                     </fileset>
                                 </unzip>
+                                <copy todir="${temp.directory}/jar/org/eclipse/help/internal/webapp"
+                                      file="${project.resources.directory}/WebappResources.properties"/>
+                                <copy todir="${temp.directory}/jar/allImages">
+                                    <fileset dir="${project.resources.directory}/allImages/" includes="**/*" />
+                                </copy>
+                                <mkdir dir="${infocenter-web.plugins.location}"/>
+                                <zip destfile="${infocenter-web.plugins.location}/org.eclipse.help.webapp_${project.version}.jar"
+                                     basedir="${webapp.build.directory}"/>
                                 <!-- TODO: inspect, haw exclude instead delete -->
-                                <delete file="${project.build.directory}/temp/webapp/web-archive/help/WEB-INF/web.xml" />
+                                <delete file="${webapp.build.directory}/web-archive/help/WEB-INF/web.xml" />
                             </tasks>
                         </configuration>
                         <goals>
@@ -130,65 +161,24 @@
                         </goals>
                         <configuration>
                             <tasks>
-                                <copy todir="${project.build.directory}/temp/war">
-                                    <fileset dir="${project.build.directory}/temp/webapp/web-archive/help">
+                                <copy todir="${maven-war-plugin.webResources.directory}">
+                                    <fileset dir="${webapp.build.directory}/web-archive/help">
                                         <include name="**" />
                                     </fileset>
                                 </copy>
-                                <!--<copy todir="${project.build.directory}/temp/war/WEB-INF/lib">-->
-                                    <!--<fileset dir="${project.build.directory}/temp/equinox/plugins">-->
-                                        <!--<include name="org.eclipse.equinox.servletbridge_*.jar" />-->
-                                    <!--</fileset>-->
-                                <!--</copy>-->
-                                <copy todir="${project.build.directory}/temp/war/WEB-INF/plugins">
-                                    <fileset dir="${project.build.directory}/temp/equinox/plugins">
+                                <copy todir="${infocenter-web.plugins.location}">
+                                    <fileset dir="${equinox-sdk.plugins.location}">
                                         <include name="org.eclipse.equinox.http.servletbridge_*.jar" />
                                     </fileset>
                                 </copy>
-                                <copy todir="${project.build.directory}/temp/war/WEB-INF/plugins">
-                                    <fileset dir="${project.build.directory}/temp/eclipse/plugins">
-                                        <!--<include name="com.ibm.icu_*.jar" />-->
-                                        <!--<include name="javax.servlet_*.jar" />-->
-                                        <!--<include name="javax.servlet.jsp_*.jar" />-->
-                                        <!--<include name="org.apache.commons.logging_*.jar" />-->
-                                        <!--<include name="org.apache.lucene_*.jar" />-->
-                                        <!--<include name="org.apache.lucene.analysis_*.jar" />-->
-                                        <!--<include name="org.apache.lucene.core_*.jar" />-->
-                                        <!--<include name="org.eclipse.core.contenttype_*.jar" />-->
-                                        <!--<include name="org.eclipse.core.expressions_*.jar" />-->
-                                        <!--<include name="org.eclipse.core.jobs_*.jar" />-->
-                                        <!--<include name="org.eclipse.core.runtime_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.app_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.common_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.http.jetty_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.http.registry_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.http.servlet_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.jsp.jasper_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.jsp.jasper.registry_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.preferences_*.jar" />-->
-                                        <!--<include name="org.eclipse.equinox.registry_*.jar" />-->
-                                        <!--<include name="com.jcraft.jsch_*.jar" />-->
-                                        <!--<include name="org.eclipse.help_*.jar" />-->
-                                        <!--<include name="org.eclipse.help.base_*.jar" />-->
-                                        <!--<include name="org.eclipse.help.webapp_*.jar" />-->
-                                        <!--<include name="org.eclipse.osgi_*.jar" />-->
-                                        <!--<include name="org.eclipse.osgi.services_*.jar" />-->
-                                        <!--<include name="org.eclipse.update.configurator_*.jar" />-->
-                                        <!--<include name="org.eclipse.core.runtime.compatibility_*.jar" />-->
+                                <copy todir="${infocenter-web.plugins.location}">
+                                    <fileset dir="${eclipse-sdk.plugins.location}">
                                         <include name="javax.el_*.jar" />
-                                        <!--<include name="org.eclipse.jetty.http_*.jar" />-->
-                                        <!--<include name="org.eclipse.jetty.io_*.jar" />-->
-                                        <!--<include name="org.eclipse.jetty.server_*.jar" />-->
-                                        <!--<include name="org.eclipse.jetty.servlet_*.jar" />-->
-                                        <!--<include name="org.eclipse.jetty.util_*.jar" />-->
                                         <include name="org.apache.jasper.glassfish_*.jar" />
-
                                         <include name="com.ibm.icu_*.jar" />
                                         <include name="javax.servlet_*.jar" />
                                         <include name="javax.servlet.jsp_*.jar" />
-                                        <!--<include name="org.apache.commons.el_*.jar" />-->
                                         <include name="org.apache.commons.logging_*.jar" />
-                                        <!--<include name="org.apache.jasper_*.jar" />-->
                                         <include name="org.apache.lucene_*.jar" />
                                         <include name="org.apache.lucene.analysis_*.jar" />
                                         <include name="org.apache.lucene.core_*.jar" />
@@ -207,8 +197,6 @@
                                         <include name="org.eclipse.equinox.registry_*.jar" />
                                         <include name="com.jcraft.jsch_*.jar" />
                                         <include name="org.eclipse.help_*.jar" />
-                                        <!--<include name="org.eclipse.help.base_*.jar" />-->
-                                        <!--<include name="org.eclipse.help.webapp_*.jar" />-->
                                         <include name="org.eclipse.osgi_*.jar" />
                                         <include name="org.eclipse.osgi.services_*.jar" />
                                         <include name="org.eclipse.update.configurator_*.jar" />
@@ -216,69 +204,19 @@
                                     </fileset>
                                 </copy>
 
-                                <!--
-                                Does not help
-                                <delete file="${project.build.directory}/temp/war/WEB-INF/web.xml" />
-                                <copy todir="${project.build.directory}/temp/war/WEB-INF"
-                                    file="${project.basedir}/src/main/webapp/resources/web.xml" />
-                                -->
-
-                                <!-- customize org.eclipse.help.webapp -->
-                                <!--<mkdir dir="${project.build.directory}/temp/jar" />-->
-                                <!--<unzip dest="${project.build.directory}/temp/jar">-->
-                                <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
-                                <!--<include name="org.eclipse.help.webapp_*.jar" />-->
-                                <!--</fileset>-->
-                                <!--</unzip>-->
-                                <!--<delete file="${project.build.directory}/temp/jar/advanced/index.jsp" />-->
-                                <!--<copy todir="${project.build.directory}/temp/jar/advanced"-->
-                                <!--file="${project.basedir}/src/main/webapp/resources/index.jsp" />-->
-                                <!--<delete file="${project.build.directory}/temp/jar/advanced/tocToolbar.jsp" />-->
-                                <!--<copy todir="${project.build.directory}/temp/jar/advanced"-->
-                                <!--file="${project.basedir}/src/main/webapp/resources/tocToolbar.jsp" />-->
-                                <!--<zip destfile="${project.build.directory}/temp/war/WEB-INF/eclipse/plugins/org.eclipse.help.webapp_${project.version}.jar"-->
-                                <!--basedir="${project.build.directory}/temp/jar" />-->
-
-                                <!-- customize org.eclipse.help.webapp -->
-                                <mkdir dir="${project.build.directory}/temp/jar"/>
-                                <unzip dest="${project.build.directory}/temp/jar">
-                                    <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
-                                    <fileset dir="${project.basedir}/../org.eclipse.help.webapp/target">
-                                        <include name="org.eclipse.help.webapp_*.jar"/>
-                                    </fileset>
-                                </unzip>
-                                <copy todir="${project.build.directory}/temp/jar/org/eclipse/help/internal/webapp"
-                                      file="${project.basedir}/src/main/webapp/resources/WebappResources.properties"/>
-                                <copy todir="${project.build.directory}/temp/jar/allImages">
-                                    <fileset dir="${project.basedir}/src/main/webapp/resources/allImages/" includes="**/*" />
-                                </copy>
-                                <zip destfile="${project.build.directory}/temp/war/WEB-INF/plugins/org.eclipse.help.webapp_${project.version}.jar"
-                                     basedir="${project.build.directory}/temp/jar"/>
-
-
-
-<!--
-                                <copy todir="${project.build.directory}/temp/war/WEB-INF/plugins/">
-                                    <fileset dir="${project.build.directory}/../../com.engagepoint.onlinehelp.servletbridge/target/" includes="*.jar" />
-                                </copy>
--->
-
-
-
                                 <!-- customize org.eclipse.help.base -->
-                                <mkdir dir="${project.build.directory}/temp/jar2" />
-                                <unzip dest="${project.build.directory}/temp/jar2">
-                                    <!--<fileset dir="${project.build.directory}/temp/eclipse/plugins">-->
-                                    <fileset dir="${project.basedir}/../org.eclipse.help.base/target">
+                                <mkdir dir="${base.build.directory}" />
+                                <unzip dest="${base.build.directory}">
+                                    <fileset dir="${base.origin.basedir.location}">
                                         <include name="org.eclipse.help.base_*.jar" />
                                     </fileset>
                                 </unzip>
-                                <delete file="${project.build.directory}/temp/jar2/preferences.ini" />
-                                <copy todir="${project.build.directory}/temp/jar2/">
-                                    <fileset dir="${project.basedir}/src/main/webapp/resources/engagepoint/" includes="**/*" />
+                                <delete file="${base.build.directory}/preferences.ini" />
+                                <copy todir="${base.build.directory}/">
+                                    <fileset dir="${project.resources.directory}/engagepoint/" includes="**/*" />
                                 </copy>
-                                <zip destfile="${project.build.directory}/temp/war/WEB-INF/plugins/org.eclipse.help.base_${project.version}.jar"
-                                     basedir="${project.build.directory}/temp/jar2" />
+                                <zip destfile="${infocenter-web.plugins.location}/org.eclipse.help.base_${project.version}.jar"
+                                     basedir="${base.build.directory}" />
                             </tasks>
                         </configuration>
                     </execution>
@@ -289,73 +227,6 @@
     </build>
 
     <profiles>
-
-        <profile>
-            <id>run-tomcat</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.cargo</groupId>
-                        <artifactId>cargo-maven2-plugin</artifactId>
-                        <version>1.4.8</version>
-                        <executions>
-                            <execution>
-                                <id>start-container</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>run</goal>
-                                </goals>
-                                <configuration>
-                                    <deployables>
-                                        <deployable>
-                                            <location>
-                                                ${project.build.directory}/${project.artifactId}_${project.version}.war
-                                            </location>
-                                            <!--<pingURL>-->
-                                            <!--http://localhost:${cargo.servlet.port}/index.jsp-->
-                                            <!--</pingURL>-->
-                                            <!--<pingTimeout>${cargo.ping.timeout.sec}000</pingTimeout>-->
-                                            <properties>
-                                                <context>ROOT</context>
-                                            </properties>
-                                        </deployable>
-                                    </deployables>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>stop-container</id>
-                                <phase>post-integration-test</phase>
-                                <goals>
-                                    <goal>stop</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <container>
-                                <containerId>tomcat${tomcat.major}x</containerId>
-                                <zipUrlInstaller>
-                                    <url>
-                                        http://archive.apache.org/dist/tomcat/tomcat-${tomcat.major}/v${tomcat.version}/bin/apache-tomcat-${tomcat.version}.tar.gz
-                                    </url>
-                                    <extractDir>${project.build.directory}/extract/</extractDir>
-                                    <downloadDir>${project.build.directory}/download/</downloadDir>
-                                </zipUrlInstaller>
-                                <output>${project.build.directory}/tomcat${tomcat.major}x.log</output>
-                                <log>${project.build.directory}/cargo.log</log>
-                            </container>
-                            <configuration>
-                                <home>${project.build.directory}/tomcat-${tomcat.version}/container</home>
-                                <properties>
-                                    <cargo.logging>high</cargo.logging>
-                                    <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
-                                    <cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>
-                                </properties>
-                            </configuration>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
 
         <profile>
             <id>run-jetty</id>
@@ -380,10 +251,6 @@
                                                 ${project.build.directory}/${project.artifactId}_${project.version}.war
                                             </location>
                                             <type>war</type>
-                                            <!--<pingURL>-->
-                                            <!--http://localhost:${cargo.servlet.port}/index.jsp-->
-                                            <!--</pingURL>-->
-                                            <!--<pingTimeout>${cargo.ping.timeout.sec}000</pingTimeout>-->
                                             <properties>
                                                 <context>/</context>
                                             </properties>
@@ -413,13 +280,11 @@
                                 <log>${project.build.directory}/cargo.log</log>
                             </container>
                             <configuration>
-                                <!--<home>${project.build.directory}/tomcat-${tomcat.version}/container</home>-->
                                 <home>${project.build.directory}/jetty-home</home>
                                 <properties>
                                     <cargo.logging>high</cargo.logging>
                                     <cargo.servlet.port>${cargo.servlet.port}</cargo.servlet.port>
                                     <cargo.rmi.port>${cargo.tomcat.ajp.port}</cargo.rmi.port>
-                                    <!--<cargo.tomcat.ajp.port>${cargo.tomcat.ajp.port}</cargo.tomcat.ajp.port>-->
                                 </properties>
                             </configuration>
                         </configuration>
