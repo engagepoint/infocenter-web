@@ -143,8 +143,10 @@ function doQuickSearch(){
 
 	<div id="buttonArea">
 		<table align="<%=isRTL?"left":"right"%>" style="background:<%=prefs.getToolbarBackground()%>">
+            <th></th>
 			<tr id="buttonsTable"><td align="<%=isRTL?"left":"right"%>">
 	  			<table cellspacing=0 cellpadding=0 border=0 style="background:transparent;">
+                    <th></th>
 					<tr>
 						<td>
 							<button type="submit" id="ok"><%=ServletResources.getString("OK", request)%></button>
