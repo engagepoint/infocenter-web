@@ -206,6 +206,8 @@
                                         <include name="org.eclipse.osgi.services_*.jar" />
                                         <include name="org.eclipse.update.configurator_*.jar" />
                                         <include name="org.eclipse.core.runtime.compatibility_*.jar" />
+                                        <include name="org.eclipse.core.net_*.jar" />
+                                        <include name="org.eclipse.equinox.security_*.jar" />
                                     </fileset>
                                 </copy>
 
@@ -216,10 +218,10 @@
                                         <include name="${base.filename.pattern}" />
                                     </fileset>
                                 </unzip>
-                                <!--<delete file="${base.build.directory}/preferences.ini" />-->
-                                <!--<copy todir="${base.build.directory}">-->
-                                    <!--<fileset dir="${project.resources.directory}/engagepoint" includes="**/*" />-->
-                                <!--</copy>-->
+                                <delete file="${base.build.directory}/preferences.ini" />
+                                <copy todir="${base.build.directory}">
+                                    <fileset dir="${project.resources.directory}/engagepoint" includes="**/*" />
+                                </copy>
                                 <zip destfile="${infocenter-web.plugins.location}/org.eclipse.help.base_${project.version}.jar"
                                      basedir="${base.build.directory}" />
                             </tasks>
