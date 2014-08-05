@@ -16,7 +16,7 @@ request.setCharacterEncoding("UTF-8");
 boolean isRTL = UrlUtil.isRTL(request, response);
 String  direction = isRTL?"rtl":"ltr";
 if (new RequestData(application,request, response).isMozilla()) {
-%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+%><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <% 
 } else {
 %><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
