@@ -9,9 +9,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>com.engagepoint.onlinehelp.servletbridge</module>
-        <module>org.eclipse.help.base</module>
-        <module>org.eclipse.help.webapp</module>
+        <!--<module>com.engagepoint.onlinehelp.servletbridge</module>-->
+        <!--<module>org.eclipse.help.base</module>-->
+        <!--<module>org.eclipse.help.webapp</module>-->
         <module>org.eclipse.help.standalone.infocenter-web</module>
     </modules>
 
