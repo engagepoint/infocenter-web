@@ -39,7 +39,6 @@ ehthumbs.db
 Thumbs.db
 
 # Eclipse
-target/
 .settings/
 .metadata/
 .classpath
